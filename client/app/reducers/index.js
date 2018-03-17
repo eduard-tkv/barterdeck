@@ -1,0 +1,194 @@
+import initialState from './initialState';
+
+import {
+  RESPONSE_INITIAL_STATE,
+  RESPONSE_INITIAL_STATE_ERROR,
+  SET_FORM_VALUES,
+  ERROR_PASSWORD_MISMATCH,
+  RESPONSE_LOGIN,
+  RESPONSE_REGISTER,
+  ERROR
+} from '../constants/actionTypes';
+
+export default function reducer(state=initialState, action){
+	switch(action.type){
+		case RESPONSE_INITIAL_STATE:
+			return { ...state, listings28: action.payload, isFetching: false };
+    break;
+    case RESPONSE_INITIAL_STATE_ERROR:
+    console.log(`inside response initial state error`);
+    return { ...state, isFetching: true };
+    break;
+    case SET_FORM_VALUES:
+      //console.log(`inside set form values reducer, action payload name and value below`);
+      //console.log(`name: ${action.payload.name} and value: ${action.payload.value}`);
+      return { 
+        ...state,  
+        formValues: { 
+          ...state.formValues, 
+          [action.payload.name]: action.payload.value
+        } 
+      };
+    break;
+		case 'LOGIN_FORM_VALUES_R':
+      return { 
+        ...state,  
+        login: {
+          ...state.login,
+          form:{
+            ...state.login.form,
+            [action.payload.name]: action.payload.value
+          }
+        } 
+      };  
+    break;    
+		case 'REGISTER_FORM_VALUES_R':
+      return { 
+        ...state,  
+        register: {
+          ...state.register,
+          form:{
+            ...state.register.form,
+            [action.payload.name]: action.payload.value
+          }
+        } 
+      };  
+    break;  
+		case 'LIST_ITEM_FORM_VALUES_R':
+      return { 
+        ...state,  
+        listItem: {
+          ...state.listItem,
+          form:{
+            ...state.listItem.form,
+            [action.payload.name]: action.payload.value
+          }
+        } 
+      };
+    break;    
+    case 'LIST_ITEM_ATTACH_IMAGE_R':
+    console.log(`inside list item attach image payload below`);
+    console.log(action.payload);
+    console.log(action.payload.size);
+      return { 
+        ...state,  
+        listItem: { 
+          ...state.listItem,
+          form: {
+            ...state.listItem.form, 
+            image: action.payload
+          }
+          
+        } 
+      };
+    break;        
+    /*
+    case 'LOGIN_INPUT_TOO_LONG':
+      return { 
+        ...state, 
+        loginForm: { 
+          ...state.loginForm, 
+          inputTooLong: action.payload 
+        } 
+      };
+    break;
+    */
+    case 'REGISTER_ERROR_PASSWORDS_DONTMATCH':
+    console.log(`inside reducer passwords dont match`);
+      return  {
+        ...state,
+        register: {
+          ...state.register,
+          errors: {
+            ...state.register.errors,
+            passwordsDontMatch: {
+              ...state.register.errors.passwordsDontMatch,
+              its: true,
+              msg: 'Passwords don\'t match!'
+            }
+          }
+        }
+      }
+    break;
+    case ERROR:
+      console.log(`inside reducer case error`);
+      break;
+    case 'LOGIN_RESPONSE':
+      if(action.payload.error){
+        return { 
+          ...state, 
+          login: {
+            ...state.login,
+            error: true,
+            errorMessage: action.payload.message
+          },
+          userStatus: {
+            loggedin: false
+          }
+        }
+      } else {
+        return {
+          ...state,
+          userStatus: {
+            loggedin: true,
+            message: action.payload.message
+          }
+        }
+      }
+      break;
+    case 'REGISTER_RESPONSE':
+      if(action.payload.error){
+        return {
+          ...state, 
+          register: {
+            ...state.register,
+            error: true,
+            errorMessage: action.payload.message
+            }
+          }
+      } else {
+        return {
+          ...state,
+          userStatus: {
+            loggedin: true,
+            message: action.payload.message
+          }
+        }
+      }
+    break; 
+    case 'LISTITEM_RESPONSE':
+      if(action.payload.error){
+        return {
+          ...state, 
+          register: {
+            ...state.register,
+            error: true,
+            errorMessage: action.payload.message
+            }
+          }
+      } else {
+        return {
+          ...state,
+          userStatus: {
+            loggedin: true,
+            message: action.payload.message
+          }
+        }
+      }
+    break;          
+    
+    /*
+    case 'LOGIN_SUBMIT_RESPONSE':
+      console.log(`inside reducer LOGIN SUBMIT RESPONSE, action payload below`);
+      console.log(action.payload);
+      if(action.payload.registrationSuccess) { 
+        return { ...state, userStatus: { ...state.userStatus, loggedIn: true } };
+      } else {
+        return { ...state, errors: { ...state.errors, loginError: true } };
+      }
+      break;
+      */    
+		default:
+		  return state;
+	}
+}
