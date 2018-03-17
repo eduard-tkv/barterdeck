@@ -21,7 +21,7 @@ function mapDispatchToProps(dispatch){
     handleInitialState(){
       console.log(`inside mapdispatchprops handleinitialstate`);
       dispatch({
-        type: GET_INITIAL_STATE
+        type: 'GET_INITIAL_STATE'
       });
     }
   }
