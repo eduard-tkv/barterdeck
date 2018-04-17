@@ -2,9 +2,9 @@ export default {
 	count: 0,
   listings28: [],
   isFetching: false,
-  userStatus: {
-    loggedin: false,
-    message: ''
+  user: {
+    nickname: '',
+    loggedIn: false
   },
   listItem: {
     form: {
@@ -24,6 +24,7 @@ export default {
       passwordOne: '',
       passwordTwo: ''
     },
+    message: '',
     error: false,
     errorMessage: ''
   },
@@ -32,7 +33,20 @@ export default {
       email: '',
       password: ''
     },
+    message: '',
     error: false,
     errorMessage: ''
+  },
+  editProfile: {
+    form: {
+      firstName: '',
+      lastName: '',
+      aboutMe: '',
+      location: {
+        locality: '',
+        administrative_area_level_1: '',
+        country: ''
+      }
+    }
   }
 };

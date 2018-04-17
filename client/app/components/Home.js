@@ -23,6 +23,14 @@ export default class Home extends Component {
   }
   
   render(){
+  
+    // I need to know the total number of listings so I can calculate the number of pages
+    // Grab first 28 listings.
+    // Check if the length is 28 or more, otherwise its just one page.
+    // 
+
+
+
 
     // If isFetching is false then the data from the server has been loaded
     if(!this.props.isFetching){
@@ -138,6 +146,16 @@ export default class Home extends Component {
       <div>
         { console.log(`inside return home, this.props.isFetching: ${this.props.isFetching}`) }
           { this.props.isFetching ? <Loader /> : <div>{ list28new }</div>  }
+      </div>
+      <div>
+        <a href="#" id="pagePrev">{'<<'}</a>
+        <a id="page1" onClick={this.props.getPage}>Page 1</a> | 
+        <a id="page2">Page 2</a> | 
+        <a href="#" id="page3">Page 3</a>
+        <a href="#" id="pageNext">{'>>'}</a>
+      </div>
+      <div>          
+        <input type="text" id="autocomplete" className="form-control" placeholder="start typing your city" name="set-location" />
       </div>
     </div>
   

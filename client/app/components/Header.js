@@ -20,6 +20,9 @@ const Header = ()=>(
 				<li className="nav-item">
 					<Link to="/list-item" className="nav-link">List New Item</Link>
 				</li>
+				<li className="nav-item">
+					<Link to="/edit-profile" className="nav-link">Edit Profile</Link>
+				</li>        
 			</ul>
 
 			<form className="form-inline mt-2 mt-md-0">

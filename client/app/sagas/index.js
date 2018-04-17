@@ -8,6 +8,7 @@ import { watchInitialState } from './getInitialState';
 import { watchRegisterSubmit } from './registerSubmit';
 import { watchLoginSubmit } from './loginSubmit';
 import { watchListItemSubmit } from './listItemSubmit';
+import { watchSetLocation } from './setLocation';
 
 import {
   SUBMIT_FORMS_S,
@@ -140,6 +141,7 @@ export default function* rootSaga(){
     watchSubmitForms(),
     watchListItemSubmit(),
     watchRegisterSubmit(),
-    watchLoginSubmit()
+    watchLoginSubmit(),
+    watchSetLocation()
   ])
 }

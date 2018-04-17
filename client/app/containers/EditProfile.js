@@ -24,6 +24,13 @@ function mapDispatchToProps(dispatch){
           payload: { name, value }
       })
     },
+
+    editProfileSetLocation(payload){
+      dispatch({
+        type: 'EDITPROFILE_SET_LOCATION_S',
+        payload: payload
+      })
+    },
     
     profileSubmit(username, email, passwordOne, passwordTwo){
       console.log(`inside mapDispatchToProps, registerSubmit`);

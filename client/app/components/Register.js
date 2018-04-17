@@ -45,10 +45,12 @@ class Register extends Component {
     }
     */
 
-    if(nextProps.userStatus.loggedin){
-      alert(nextProps.userStatus.message);
-      this.props.history.push('/login');
+    
+    if(nextProps.user.loggedIn){
+      alert(nextProps.register.message);
+      this.props.history.push('/edit-profile');
     }
+    
   }
   
   componentDidMount(){

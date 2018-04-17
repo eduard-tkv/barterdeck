@@ -9,16 +9,17 @@ var config = {
 , output: {
     path: BUILD_DIR
   , filename: 'bundle.js'
-  , publicPath: '/'
+  , publicPath: ''
   }
 , resolve: {
     extensions: ['', '.js', '.jsx']
   }
-, devtool: 'source-map'
+, devtool: 'inline-source-map'
 , devServer: {
     inline: true
   , contentBase: BUILD_DIR
   , port: 3333
+  , historyApiFallback: true
   }
 , module: {
     loaders: [

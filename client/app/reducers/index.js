@@ -129,8 +129,10 @@ export default function reducer(state=initialState, action){
       } else {
         return {
           ...state,
-          userStatus: {
-            loggedin: true,
+          user: {
+            loggedin: true
+          },
+          login: {
             message: action.payload.message
           }
         }
@@ -149,8 +151,10 @@ export default function reducer(state=initialState, action){
       } else {
         return {
           ...state,
-          userStatus: {
-            loggedin: true,
+          user: {
+            loggedIn: true
+          },
+          register: {
             message: action.payload.message
           }
         }
@@ -175,7 +179,28 @@ export default function reducer(state=initialState, action){
           }
         }
       }
-    break;          
+    break;
+    /*
+    case 'EDITPROFILE_LOCATION_INPUT_R':
+      return {
+        ...state,
+        editProfile: {
+          ...state.editProfile,
+          form: {
+            ...state.editProfile.form,
+            location: {
+              ...state.editProfile.form.location,
+              locality: action.payload
+            }
+          }
+        }
+      }
+    break;
+    */
+    case 'SETLOCATION_RESPONSE':
+      console.log(`inside set location response saga, response below`);
+      console.log(action);
+    break;
     
     /*
     case 'LOGIN_SUBMIT_RESPONSE':

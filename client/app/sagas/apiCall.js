@@ -75,6 +75,7 @@ export function* apiCall(path, actionType, options){
   }
   */
 
+  /*
   if(path == 'listitem'){
     httpHeaders = {
       'Authorization' : `Bearer ${token}`
@@ -82,6 +83,20 @@ export function* apiCall(path, actionType, options){
   } else {
     httpHeaders = {
       'Content-Type' : 'application/x-www-form-urlencoded', 
+      'Authorization' : `Bearer ${token}`
+    };
+  }
+  */
+
+
+  if(path == 'login'){
+    httpHeaders = {
+      'Authorization' : `Bearer ${token}`,
+      'Content-Type' : 'application/x-www-form-urlencoded', 
+      'Accept' : 'application/json'
+    };
+  } else {
+    httpHeaders = {
       'Authorization' : `Bearer ${token}`
     };
   }

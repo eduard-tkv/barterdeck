@@ -14,7 +14,7 @@ import {
 function mapStateToProps(state){
   return {
     login: state.login,
-    userStatus: state.userStatus
+    user: state.user
   }
 }
 

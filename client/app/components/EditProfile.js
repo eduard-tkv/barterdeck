@@ -1,14 +1,116 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { Component } from 'react';
+import { Link, withRouter } from 'react-router-dom';
+
+import { checkLength, convertToCamelcase } from './Helpers';
 
 import '../../build/assets/css/style.css';
+import { autocomplete } from '../helpers/autocomplete';
 
-const EditProfile = ()=>(
-<div className="container">
+class EditProfile extends Component {
+  constructor(props){
+    super(props);
 
-      <div className="mt-5">
-      </div>
+    //this.state = this.props.store.getState();
 
+    console.log(`props below Register`);
+    console.log(props);
+   
+    this.handleUserInput = this.handleUserInput.bind(this);
+    //this.getLoginValues = this.getLoginValues.bind(this);
+    //this.loginSubmit = this.loginSubmit.bind(this);
+    this.submitForm = this.submitForm.bind(this);
+    this.setLocation = this.setLocation.bind(this);
+  }
+
+  
+  componentWillMount(){
+    console.log(`inside component will mount`);
+    //if(this.props.submitResponses.login == 'post success') this.props.history.push('/');
+  }
+  
+  
+  componentWillReceiveProps(nextProps){
+    //console.log(`inside component will receive props`);
+    //console.log(`below this.props.submitResponses.login`);
+    //console.log(this.props.submitResponses.login);
+    console.log(`inside component will receive props, below are props`);
+    console.log(this.props);
+    console.log(`inside component will receive props, below are nextprops`);
+    console.log(nextProps);
+    /*
+    if(nextProps.userStatus.loggedin) { 
+      this.props.history.push('/') 
+    }
+
+    if(nextProps.userStatus.registered) { 
+      this.props.history.push('/register_login') 
+    }
+    */
+
+    if(nextProps.userStatus.loggedin){
+      alert(nextProps.userStatus.message);
+      this.props.history.push('/login');
+    }
+  }
+  
+  componentDidMount(){
+    console.log(`edit profile component - i did mount`);
+    const script = document.createElement("script");
+    script.src = "./assets/js/autocomplete.js";
+    document.body.appendChild(script);
+    //window.location.reload();
+    //autocomplete();
+  }
+
+  /*
+  class Component extends React.Component{
+    componentDidMount() {
+      const script = document.createElement("script")
+      script.src = "path/to/source"
+      document.head.appendChild(script)
+    }
+  }
+  */
+
+  submitForm(e){
+    e.preventDefault();
+      this.props.registerSubmit(
+        this.props.register.form.username,
+        this.props.register.form.email, 
+        this.props.register.form.passwordOne,
+        this.props.register.form.passwordTwo
+      );
+  }
+  
+  setLocation(){
+    //const value = e.target.value;
+    //const name = e.target.name;
+    //console.log(`value is: ${value} and name is ${name}`);
+    let location = {};
+    location.locality = document.getElementById('locality').value;
+    location.administrative_area_level_1 = document.getElementById('administrative_area_level_1').value;
+    location.country = document.getElementById('country').value;
+    console.log(`inside component setlocation, location object:`);
+    console.log(location);
+    this.props.editProfileSetLocation(location);
+  }
+
+  handleUserInput(e){
+    //e.preventDefault();
+    //alert(`haha`);
+    const name = convertToCamelcase(e.target.name);
+    const value = e.target.value;
+    //console.log(`inside handleUserInput, name and value below`);
+    //console.log(`${name} : ${value}`);
+    this.props.registerFormValues(name, value);
+  }
+
+  render(){
+    console.log(`inside render this.props below`);
+    console.log(this.props);
+    return (
+
+    <div className="container">
       <div className="row">
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
          <div className="header-content text-center">
@@ -17,62 +119,67 @@ const EditProfile = ()=>(
          </div>
      </div>
      </div>
-
-     <div className="row">
-         <div className="col-md-7">
-             <div className="form-block">
-               <h2>Profile Details</h2>
-               <div className="form login-form">
-                <form className="form-horizontal" action="/action_page.php">
-                  <div className="form-group">
-                    <label className="control-label" for="email">First Name:</label>
-                    <div>
-                      <input type="email" className="form-control" id="email" name="email" />
+    <div className="row">
+        <div className="col-md-7">
+            <div className="form-block">
+              <h2>Register</h2>
+              <div className="form login-form">
+                <form id="editprofile" onSubmit={ this.submitForm }>
+                    <div className="form-group">
+                      <input required type="text" className="form-control" placeholder="Enter first name" name="firstname" 
+                      title="Length should be 4 characters or more"
+                      pattern=".{4,}"
+                      maxLength="100"
+                      value={ this.props.editProfile.form.firstName }
+                      onChange={ this.handleUserInput }/>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="control-label" for="pwd">Phone Number:</label>
-                    <div>          
-                      <input type="password" className="form-control" id="pwd" name="pwd" />
+                    <div className="form-group">
+                      <input required type="text" className="form-control" placeholder="Enter lastname" name="lastname" 
+                      pattern=".{6,}"
+                      maxLength="100"
+                      value={ this.props.editProfile.form.lastName }
+                      onChange={ this.handleUserInput }/>
                     </div>
-                  </div>
-                  <div className="form-group">
-                    <label className="control-label" for="pwd">Email Address:</label>
-                    <div>          
-                      <input type="password" className="form-control" id="pwd" name="pwd" />
+                    <div className="form-group">
+                      <label htmlFor="description">About Me:</label>
+                      <textarea className="form-control" rows="10" name="aboutme"
+                        value={this.props.editProfile.form.aboutMe}
+                        onChange={this.handleUserInput}/>
                     </div>
-                  </div>   
-                  <div className="form-group">
-                    <label for="comment">Bio:</label>
-                    <textarea className="form-control" rows="5" id="comment"></textarea>
-                  </div>               
-                  <div className="form-group">        
-                    <div className="col-sm-offset-2 col-sm-10">
-                      <button type="submit" className="btn btn-default">Submit</button>
-                    </div>
+                    <button type="submit" className="btn btn-default custom-btn">submit</button>
+                    <div className="form-errors">
+                      { this.props.editProfile.error ? 
+                        this.props.editProfile.errorMessage : '' }
                   </div>
                 </form>
-               </div>
-             </div>
-         </div>
-         <div className="col-md-5">
+              </div>
+            </div>
+        </div>
+        <div className="col-md-5">
              <div className="form-block">
                 <h2>Edit Location</h2>
                 <div className="form login-form">
-                 <form action="/action_page.php">
+                 <form>
                   <div className="form-group">
-                    <label className="control-label" for="pwd">Not set</label>
+                    <label className="control-label" htmlFor="pwd">Not set</label>
                     <div>          
-                      <input type="text" className="form-control" placeholder="start typing your city" id="set-location" name="set-location" />
+                      <input type="text" id="autocomplete" className="form-control" placeholder="start typing your city" name="set-location" />
+                    </div>
+                    <div>
+                    <input type="text" id="locality" name="locality" />
+                    <input type="text" id="administrative_area_level_1" name="administrative_area_level_1" />
+                    <input type="text" id="country" name="country" />
                     </div>
                   </div> 
-                     <button type="submit" className="btn btn-default custom-btn">Set Location</button>
+                     <button onClick={this.setLocation} type="button" className="btn btn-default custom-btn">Set Location</button>
                  </form>
                 </div>
              </div>
          </div>
-     </div>
     </div>
-);
+</div>
+)}
+
+}
 
 export default EditProfile;

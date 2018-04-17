@@ -59,6 +59,7 @@ function* listItemSubmit(request){
   body.append('sellFor', sellFor);
   body.append('description', description);
   body.append('image', image);
+  body.append('postedDate', Date.now());
 
   /*
   fetch('/avatars', {

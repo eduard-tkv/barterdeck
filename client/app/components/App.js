@@ -10,7 +10,7 @@ import Footer from './Footer';
 import Register from '../containers/Register';
 import Login from '../containers/Login';
 import ContactUser from './ContactUser';
-import EditProfile from './EditProfile';
+import EditProfile from '../containers/EditProfile';
 import ListItem from '../containers/ListItem';
 import ViewItem from './ViewItem';
 import ViewProfile from './ViewProfile';
@@ -32,6 +32,7 @@ export default class App extends Component {
         <Route path="/login" component={ Login }/>
         <Route path="/register" component={ Register }/>
         <Route path="/list-item" component={ ListItem } />
+        <Route path="/edit-profile" component={ EditProfile } />
         <Footer />
       </div>
     )

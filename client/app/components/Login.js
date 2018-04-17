@@ -25,7 +25,7 @@ class Login extends Component {
     console.log(this.props);
     console.log(`inside component will receive props, below are nextprops`);
     console.log(nextProps);
-    if(nextProps.userStatus.loggedin) { 
+    if(nextProps.user.loggedIn) { 
       this.props.history.push('/') 
     }
   }
