@@ -155,7 +155,7 @@ router.post('/login', parserFalse, (req, res, next) => {
       return res.json({
         error: false,
         message: "Login Success",
-        username: user.username,
+        username: user.nickname,
         token: token
       });
     });
