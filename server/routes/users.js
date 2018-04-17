@@ -146,7 +146,7 @@ router.post('/login', parserFalse, (req, res, next) => {
       console.log(config.jwtSecret);
       
       var token = jwt.sign(payload, config.jwtSecret, {
-        expiresIn: "1d" // expires in 1 day
+        expiresIn: "2d" // expires in 2 days
       });
       
       console.log(`token below`);
@@ -155,6 +155,7 @@ router.post('/login', parserFalse, (req, res, next) => {
       return res.json({
         error: false,
         message: "Login Success",
+        username: user.username,
         token: token
       });
     });
@@ -163,29 +164,134 @@ router.post('/login', parserFalse, (req, res, next) => {
 
 
 
+router.post('/setlocation', (req, res, next)=>{
+  
+  let location;
+  let query = '';
+  let token = null;
+  
+  console.log(`inside post setlocation\n`);
+  console.log(`inside post setlocation req.headers below`);
+  console.log(req.headers);
+  
+  // Create a busboy instance limiting the number of files
+  // to one and the file size to 500kb
+  console.log(`inside post setlocation, before new Busboy\n`);
+  let busboy = new Busboy({ 
+    headers: req.headers,  
+    limits: { files: 1, fileSize: 510000 }  
+  });
+  
+  console.log(`inside post setlocation before token slice\n`);
+  
+  // Extract the token from headers.authorization
+  if(req.headers.authorization){
+    token = req.headers.authorization.slice(7);
+  }
+  console.log(`inside post setlocation after token slice\n`);
+ 
+  
+  if (token) {
+    console.log(`token below`);
+    console.log(token);
+    
+    console.log(`token secret key below`);
+    console.log(config.jwtSecret);
+    
+    // decode token, verifies secret and checks exp
+    jwt.verify(token, config.jwtSecret, function(err, decoded) {
+      if (err) {
+        console.log(`inside verify token error, error below`);
+        console.log(err);
+        
+        return res.send({ 
+          error: true,
+          status: 'tokenfail',
+          message: 'Failed to authenticate token.' 
+        });  
+        next();
+      } else {
+                
+        console.log(`inside verify token NO error, decoded token below`);
+        console.log(decoded);
+        query = { "_id": decoded.user };
+
+        busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+          console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+          if(fieldname == 'location') { location = JSON.parse(val); }
+          
+          /*
+          if(fieldname == 'locality') { location.locality = val; }
+          if(fieldname == 'administrative_area_level_1') { location.administrative_area_level_1 = val; }
+          if(fieldname == 'country') { location.country = val; }
+          */
+        });
+
+        busboy.on('error', function(err){
+          console.log('inside busboy error, error message below');
+          console.log(err);
+          res.send({ 
+            error: true, 
+            message: 'Setting location failed. Please try again.' });
+        });
+
+        // Upon finishing form and image upload save the form and image name in db
+        busboy.on('finish', function() {
+          console.log('Done parsing form!, listing detals below');
+          
+          let setLocation = { $push: { location: location } };
+        
+            Account.findOneAndUpdate(query, setLocation, function(err, doc){
+              console.log(`inside account update save listing details\n`);
+              // Not checking for err for now as
+              // it will set headers twice, maybe later
+              if(err){
+                console.log(`ERROR inside account update, error saving the listing`);
+                res.status(455).send({ error: true, message: 'Error setting the location!' });
+              }
+          });
+
+
+        });
+        
+        req.pipe(busboy);
+      }
+    });
+
+  } else {
+    return res.json({ 
+      error: true, 
+      status: 'notoken', 
+      message: 'No token found.' }); 
+    next();
+  }
+  
+  // status codes:
+  // 'notoken' - redirect to login page
+  // 'tokenfail' - redirect to login page
+  // in all other cases display the error
+});
 
 
 
 
 
 
-
-
-
-
+//  '/listitem'
 router.post('/listitem', (req, res, next)=>{
   
   let itemOffered = '';
   let itemSought = '';
   let sellFor = null;
   let description = '';
+  let postedOn = Date.now();
   let query = '';
   let limitReach = false;
   let dir = '';
-  let path = '';
+  let imagePath = '';
   let fstream = null;
   let imageMimeTypes = ['image/png', 'image/jpeg'];
-  let file_name = '';
+  let filenameDatestamp = '';
   let token = null;
   
   console.log(`inside post listitem\n`);
@@ -244,8 +350,12 @@ router.post('/listitem', (req, res, next)=>{
           // directory where user's images will be stored
           dir = __dirname + "/../public/images/" + decoded.user;
           
+          filenameDatestamp = Date.now() + '_' + filename;
+          
           // path to the image
-          path = dir + "/" + filename;
+          imagePath = dir + "/" + filenameDatestamp;
+          
+          console.log(`imagepath: ${imagePath}`);
 
           if (!fs.existsSync(dir)){
             fs.mkdirSync(dir);
@@ -253,14 +363,12 @@ router.post('/listitem', (req, res, next)=>{
 
           query = { "_id": decoded.user };
           console.log(`query below`);
-          console.log(listitem.query);
-
-          file_name = filename;
+          console.log(query);
 
           // Checking if it's an image
           if(imageMimeTypes.indexOf(mimetype) == -1) {
             console.log(`inside busboy not an image\n`);
-            res.send({ 
+            res.send({
               error: true,
               message: "Please select an image in png or jpg format!" 
             });
@@ -270,7 +378,7 @@ router.post('/listitem', (req, res, next)=>{
 
             console.log(`inside account update, just before stream write\n`);
             // Creating a writestream using fs module
-            fstream = fs.createWriteStream(path);
+            fstream = fs.createWriteStream(imagePath);
             file.pipe(fstream);
 
             // If the image is larger than 510KB, limit_reach is set to true
@@ -279,7 +387,7 @@ router.post('/listitem', (req, res, next)=>{
             // the partially uploaded file is deleted
             file.on('limit', function(){
               console.log(`ERROR: inside file on limit`);
-              fs.unlink(path, function(){
+              fs.unlink(imagePath, function(){
                 limitReach = true;
                 // Unset img_ext
 
@@ -303,6 +411,7 @@ router.post('/listitem', (req, res, next)=>{
           if(fieldname == 'itemSought') { itemSought = val; }
           if(fieldname == 'sellFor') { sellFor = val; }
           if(fieldname == 'description') { description = val; }
+          if(fieldname == 'postedDate') { postedDate = val; }
 
         });
 
@@ -321,7 +430,7 @@ router.post('/listitem', (req, res, next)=>{
             ' itemSought: ' + itemSought + 
             ' sellFor: ' + sellFor + 
             ' description: ' + description);
-          console.log(file_name);
+          console.log(filenameDatestamp);
           //saveImage = { $push: { "listings.$.images": filename } };
           
           let saveListing = { $push: { listings: { 
@@ -329,7 +438,8 @@ router.post('/listitem', (req, res, next)=>{
               "itemSought": itemSought,
               "sellFor": sellFor,
               "description": description,
-              "images": file_name
+              "postedDate": postedDate,
+              "images": filenameDatestamp
             } } };
 
          // If the file is larger than 500kb the limitReach is true

@@ -16,14 +16,19 @@ const Account = new Schema({
   password: String,
   listings: [
     {
-      listingNumber: String,
       itemOffered: String,
       itemSought: String,
       sellFor: Number,
       description: String,
-      images: [String]
+      images: [String],
+      postedDate: Number
     }
-  ]
+  ],
+  location: {
+    locality: String,
+    administrative_area_level_1: String,
+    country: String
+  }
 });
 
 Account.plugin(passportLocalMongoose, {
