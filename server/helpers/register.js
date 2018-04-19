@@ -1,154 +1,46 @@
-const passport = require('passport');
-const Account = require('../models/account');
+function errors(err, res, query, Account){
+  console.log(`inside errors helpers`);
+  console.log(err.name);
+  console.log(err);
+  if(err.name === 'NoSaltValueStoredError'){
+    respond(res);
+  } else if(err.code === 11000){
+    // 11000 is duplicate username error. In Mongoose schema
+    // email is used as the usernameField hence the following
+    // error message
+    respond(res, "This username already registered");
+  } else if (err.name === 'UserExistsError'){
+    // Because in Mongoose schema email is the usernamefield
+    // duplicate usernames means duplicate emails.
+    respond(res, 'This email already registered');
+  } else {
+    respond(res, err.message);
+  }
+}
 
-module.exports = Account.register(username, password, function(err, user){
-      console.log(`inside account.register`);
-      
-      if(err){
-        console.log('\nError while registering user! err below');
-        console.log(err.code);
-        
-        if(err.code === 11000){
-          return res.json({
-            error: true,
-            message: "Email is in use!"
-          });
-        }
-        
-        if(err.name === 'NoSaltValueStoredError'){
-          return res.json({
-            error: true,
-            message: 'Registraion failed'
-          });
-        } else {
-          return res.json({
-            error: true,
-            message: err.message
-          });
-        }
-      } else {
-        
-        console.log(`\ninside register, after username registration newly stored user below`);
-        console.log(user);
-        
-        let query = { username: user.username };
-        let update = { $set: { email: fields.email } };
-        
-        /*
-        if(user.email){
-          console.log(`inside account register, below user.email`);
-          console.log(user.email);
-          update = { $set: { email: fields.email } };
-        } else {
-          return res.json({
-            error: true,
-            message: "Email is in use!"
-          });
-        }
-        */
-        
-        
-        Account.findOneAndUpdate(query, update, (err, user) => {
-          console.log(`inside account update`);
-          
-          if(user.email === fields.email){
-            return res.json({
-              error: true,
-              message: "Email is in use!"
-            });
-          }
-          
-          if(err || user === null){
-            console.log(`error while trying to update at registration, err below`);
-            if(err){ console.log(`\n${err}`); }
-            return res.json({
-              error: true, 
-              message: "Error while registering"
-            });
-          } else {
-            
-            console.log(`below user from findoneandupdate`);
-            console.log(user);
-            console.log('user registered!');
-            
-            return res.json({
-              error: false,
-              message: "Registration was successful. You can log in now." 
-            });
-          }
-          
-        });
-        // save username to db
-      }
-    });
+function respond(res, msg){
+  return res.json({
+    error: true,
+    message: msg ? msg : "Sorry, there was an error"
+  });
+}
 
-/*
-Account.register(new Account({ username: fields.username }), fields.passwordOne, function(err, user){
-      console.log(`inside account.register`);
-      
-      if(err){
-        console.log('\nError while registering user! err below');
-        console.log(err.code);
-        
-        if(err.code === 11000){
-          return res.json({
-            error: true,
-            message: "Email is in use!"
-          });
-        }
-        
-        if(err.name === 'NoSaltValueStoredError'){
-          return res.json({
-            error: true,
-            message: 'Registraion failed'
-          });
-        } else {
-          return res.json({
-            error: true,
-            message: err.message
-          });
-        }
-      } else {
-        
-        console.log(`\ninside register, after username registration newly stored user below`);
-        console.log(user);
-        
-        let query = { username: user.username };
-        let update = { $set: { email: fields.email } };
-        
-        
-        Account.findOneAndUpdate(query, update, (err, user) => {
-          console.log(`inside account update`);
-          
-          if(user.email === fields.email){
-            return res.json({
-              error: true,
-              message: "Email is in use!"
-            });
-          }
-          
-          if(err || user === null){
-            console.log(`error while trying to update at registration, err below`);
-            if(err){ console.log(`\n${err}`); }
-            return res.json({
-              error: true, 
-              message: "Error while registering"
-            });
-          } else {
-            
-            console.log(`below user from findoneandupdate`);
-            console.log(user);
-            console.log('user registered!');
-            
-            return res.json({
-              error: false, 
-              registered: true,
-              message: "Registration was successful. You can log in now." 
-            });
-          }
-          
-        });
-        // save username to db
-      }
-    });
-    */
+function success(res){
+  return res.json({
+    error: false,
+    message: "Registration successful. You can log in now!"
+  });
+}
+
+function passwordMismatch(res){
+  return res.json({
+    error: true,
+    message: "Passwords don't match!"
+  });
+}
+
+module.exports = {
+  errors,
+  success,
+  passwordMismatch
+};
