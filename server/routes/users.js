@@ -116,13 +116,13 @@ router.post('/login', parserFalse, (req, res, next) => {
     if(err){
       console.log('err:');
       console.log(err.message);
-      return next(err);
+      loginHelpers.error(err, res);
     }
     
     req.logIn(user, function(err){
       console.log(`inside req.logIn`);
       if (err){
-        return next(err); 
+        loginHelpers.error(err, res);
       }
       
       console.log(`user id below`);
