@@ -4,19 +4,16 @@ const passport = require('passport');
 const Account = require('../models/account');
 const fs = require('fs');
 
-
-//const ObjectId = require('mongodb').ObjectId; 
-
 const bodyParser = require('body-parser');
 const Busboy = require('busboy');
 const inspect = require('util').inspect;
 const parserFalse = bodyParser.urlencoded({ extended: false });
 const parserTrue = bodyParser.urlencoded({ extended: true });
 
-const helpers = require('../helpers');
+const registerHelpers = require('../helpers/register');
+const loginHelpers = require('../helpers/login');
 const lists = require('./listings28');
 
-//const formidable = require('formidable');
 const jwt = require('jsonwebtoken');
 const config = require('../config');
 
@@ -60,13 +57,11 @@ router.post('/register', (req, res, next)=>{
     console.log('email: ' + email + 'password: ' + password + 'username: ' + nickname);
     Account.register(new Account({ nickname: nickname, email: email }), password, (err, user) => {
       if(err){
-        helpers.errors(err, res);
+        registerHelpers.error(err, res);
       } else {
-        helpers.registerSuccess(res);
+        registerHelpers.success(res);
       }
     });
-    //res.writeHead(303, { Connection: 'close', Location: '/' });
-    //res.end();
   });
   
   req.pipe(busboy);
@@ -109,11 +104,6 @@ router.post('/login', parserFalse, (req, res, next) => {
     console.log(user._id);
     
     var options = "";
-    if(err){
-      console.log('err:');
-      console.log(err.message);
-      return next(err);
-    }
     
     if(!user){
       console.log(`inside no user`);
@@ -121,6 +111,12 @@ router.post('/login', parserFalse, (req, res, next) => {
         error: true, 
         message: "Password or email are incorrect" 
       });
+    }
+    
+    if(err){
+      console.log('err:');
+      console.log(err.message);
+      return next(err);
     }
     
     req.logIn(user, function(err){
