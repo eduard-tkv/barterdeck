@@ -9,42 +9,24 @@ class Register extends Component {
   constructor(props){
     super(props);
 
-    //this.state = this.props.store.getState();
-
     console.log(`props below Register`);
     console.log(props);
    
     this.handleUserInput = this.handleUserInput.bind(this);
-    //this.getLoginValues = this.getLoginValues.bind(this);
-    //this.loginSubmit = this.loginSubmit.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
 
   
   componentWillMount(){
     console.log(`inside component will mount`);
-    //if(this.props.submitResponses.login == 'post success') this.props.history.push('/');
   }
   
   
   componentWillReceiveProps(nextProps){
-    //console.log(`inside component will receive props`);
-    //console.log(`below this.props.submitResponses.login`);
-    //console.log(this.props.submitResponses.login);
     console.log(`inside component will receive props, below are props`);
     console.log(this.props);
     console.log(`inside component will receive props, below are nextprops`);
     console.log(nextProps);
-    /*
-    if(nextProps.userStatus.loggedin) { 
-      this.props.history.push('/') 
-    }
-
-    if(nextProps.userStatus.registered) { 
-      this.props.history.push('/register_login') 
-    }
-    */
-
     
     if(nextProps.user.loggedIn){
       alert(nextProps.register.message);
@@ -60,7 +42,7 @@ class Register extends Component {
   submitForm(e){
     e.preventDefault();
       this.props.registerSubmit(
-        this.props.register.form.username,
+        this.props.register.form.nickname,
         this.props.register.form.email, 
         this.props.register.form.passwordOne,
         this.props.register.form.passwordTwo
@@ -99,11 +81,11 @@ class Register extends Component {
               <div className="form login-form">
                 <form id="register" onSubmit={ this.submitForm }>
                     <div className="form-group">
-                      <input required type="text" className="form-control" placeholder="Enter a username" name="username" 
+                      <input required type="text" className="form-control" placeholder="Enter a nickname" name="nickname" 
                       title="Length should be 4 characters or more"
                       pattern=".{4,}"
                       maxLength="100"
-                      value={ this.props.register.form.username }
+                      value={ this.props.register.form.nickname }
                       onChange={ this.handleUserInput }/>
                     </div>
                     <div className="form-group">

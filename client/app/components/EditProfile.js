@@ -44,10 +44,10 @@ class EditProfile extends Component {
   submitForm(e){
     e.preventDefault();
       this.props.registerSubmit(
-        this.props.register.form.username,
-        this.props.register.form.email, 
-        this.props.register.form.passwordOne,
-        this.props.register.form.passwordTwo
+        this.props.editProfile.form.firstName,
+        this.props.editProfile.form.lastName, 
+        this.props.editProfile.form.passwordOne,
+        this.props.editProfile.form.passwordTwo
       );
   }
   

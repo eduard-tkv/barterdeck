@@ -19,7 +19,6 @@ export default class Home extends Component {
     console.log(`home comp i did mount and props below`);
 
     console.log(this.props);
-    //this.setState(this.props.store.getState());
   }
   
   render(){
