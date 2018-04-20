@@ -5,7 +5,7 @@ import { apiCall } from './apiCall';
 function* registerSubmit(request){
 
   console.log(`inside registerSubmit saga`);
-  const { username, email, passwordOne, passwordTwo } = request.payload;
+  const { nickname, email, passwordOne, passwordTwo } = request.payload;
   request.payload.password = request.payload.passwordOne;
   console.log(`request.payload is below`);
   console.log(request.payload);
