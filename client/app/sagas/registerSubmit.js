@@ -10,60 +10,12 @@ function* registerSubmit(request){
   console.log(`request.payload is below`);
   console.log(request.payload);
 
-  //let body = '';
-  /*
-  let urlEncodedDataPairs = [];
-  let name = '';
-  let path = request.payload.formId;
-  let actionType = '';
-  */
-
-  /*
-  switch(formId){
-    case 'register':
-      console.log(`case register`);
-      actionType = 'REGISTER_RESPONSE';
-      break;
-
-    case 'login':
-      actionType = 'LOGIN_RESPONSE';
-      console.log(`case login`);
-      break;
-
-    default:
-      console.log(`request.payload.formId is neither register or login`);
-  }
-  */
-
-
-  /*
-  // Turn the data object into an array of URL-encoded key/value pairs.
-  for(name in request.payload) {
-    urlEncodedDataPairs.push(encodeURIComponent(name) + '=' + encodeURIComponent(request.payload[name]));
-  }
-
-  // Combine the pairs into a single string and replace all %-encoded spaces to 
-  // the '+' character; matches the behaviour of browser form submissions.
-  body = urlEncodedDataPairs.join('&').replace(/%20/g, '+');
-
-  let options = {
-    method: 'POST',
-    body: body
-  };
-  */
-
   let path = 'register';
   let body = new FormData();
-  body.append('username', username);
+  body.append('nickname', nickname);
   body.append('email', email);
   body.append('password', passwordOne);
 
-  /*
-  fetch('/avatars', {
-    method: 'POST',
-    body: data
-  })  
-  */
   let options = {
     method: 'POST',
     body: body
@@ -79,11 +31,9 @@ function* registerSubmit(request){
   } else {
     yield call(apiCall, path, actionType, options);
   }
-
 }
 
 export function* watchRegisterSubmit(){
   console.log(`inside watch register submit saga`);
   yield takeEvery('REGISTER_SUBMIT_S', registerSubmit);
-  //const request = yield takeEvery('REGISTER_SUBMIT_S', registerSubmit);
 }
