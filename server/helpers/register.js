@@ -28,7 +28,7 @@ function respond(res, msg){
 function success(res){
   return res.json({
     error: false,
-    message: "Registration successful. You can log in now!"
+    message: "Registration successful. Please update your profile!"
   });
 }
 
