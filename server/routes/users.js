@@ -77,14 +77,6 @@ router.post('/login', parserFalse, (req, res, next) => {
   res.setHeader('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept, Authorization');
   res.setHeader('Access-Control-Allow-Credentials', true);
   
-  console.log(`after setting headers`);
-  
-  console.log(`\nreq.body below\n`);
-  console.log(req.body);
-  console.log(`\nreq.account below\n`);
-  console.log(req.account);
-  console.log(`\n`);
-  
   passport.authenticate('local', (err, user, info) => {
     console.log(`\ninside passport authenticate, req fields below\n`);
     console.log(req.body.email);
@@ -102,8 +94,6 @@ router.post('/login', parserFalse, (req, res, next) => {
     
     console.log(`user id below`);
     console.log(user._id);
-    
-    var options = "";
     
     if(!user){
       console.log(`inside no user`);
