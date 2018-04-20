@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-import { checkLength, convertToCamelcase } from './Helpers';
+import { convertToCamelcase } from '../helpers';
 
 import '../../build/assets/css/style.css';
 
@@ -14,7 +14,6 @@ class Login extends Component {
     this.handleUserInput = this.handleUserInput.bind(this);
     this.submitForm = this.submitForm.bind(this);
   }
-
   
   componentWillMount(){
     console.log(`inside component will mount`);

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-import { checkLength, convertToCamelcase } from './Helpers';
+import { convertToCamelcase } from '../helpers';
 
 import '../../build/assets/css/style.css';
 

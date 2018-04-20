@@ -1,56 +1,37 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
-import { checkLength, convertToCamelcase } from './Helpers';
+import { convertToCamelcase } from '../helpers';
 
 import '../../build/assets/css/style.css';
-import { autocomplete } from '../helpers/autocomplete';
 
 class EditProfile extends Component {
   constructor(props){
     super(props);
-
-    //this.state = this.props.store.getState();
-
     console.log(`props below Register`);
     console.log(props);
    
     this.handleUserInput = this.handleUserInput.bind(this);
-    //this.getLoginValues = this.getLoginValues.bind(this);
-    //this.loginSubmit = this.loginSubmit.bind(this);
     this.submitForm = this.submitForm.bind(this);
     this.setLocation = this.setLocation.bind(this);
   }
-
   
   componentWillMount(){
     console.log(`inside component will mount`);
-    //if(this.props.submitResponses.login == 'post success') this.props.history.push('/');
   }
   
-  
   componentWillReceiveProps(nextProps){
-    //console.log(`inside component will receive props`);
-    //console.log(`below this.props.submitResponses.login`);
-    //console.log(this.props.submitResponses.login);
     console.log(`inside component will receive props, below are props`);
     console.log(this.props);
     console.log(`inside component will receive props, below are nextprops`);
     console.log(nextProps);
+
     /*
-    if(nextProps.userStatus.loggedin) { 
-      this.props.history.push('/') 
-    }
-
-    if(nextProps.userStatus.registered) { 
-      this.props.history.push('/register_login') 
-    }
-    */
-
     if(nextProps.userStatus.loggedin){
       alert(nextProps.userStatus.message);
       this.props.history.push('/login');
     }
+    */
   }
   
   componentDidMount(){
@@ -58,19 +39,7 @@ class EditProfile extends Component {
     const script = document.createElement("script");
     script.src = "./assets/js/autocomplete.js";
     document.body.appendChild(script);
-    //window.location.reload();
-    //autocomplete();
   }
-
-  /*
-  class Component extends React.Component{
-    componentDidMount() {
-      const script = document.createElement("script")
-      script.src = "path/to/source"
-      document.head.appendChild(script)
-    }
-  }
-  */
 
   submitForm(e){
     e.preventDefault();
@@ -83,9 +52,6 @@ class EditProfile extends Component {
   }
   
   setLocation(){
-    //const value = e.target.value;
-    //const name = e.target.name;
-    //console.log(`value is: ${value} and name is ${name}`);
     let location = {};
     location.locality = document.getElementById('locality').value;
     location.administrative_area_level_1 = document.getElementById('administrative_area_level_1').value;
@@ -96,12 +62,8 @@ class EditProfile extends Component {
   }
 
   handleUserInput(e){
-    //e.preventDefault();
-    //alert(`haha`);
     const name = convertToCamelcase(e.target.name);
     const value = e.target.value;
-    //console.log(`inside handleUserInput, name and value below`);
-    //console.log(`${name} : ${value}`);
     this.props.registerFormValues(name, value);
   }
 
