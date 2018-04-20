@@ -46,7 +46,7 @@ router.post('/register', (req, res, next)=>{
   */
   busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
     console.log('Field [' + fieldname + ']: value: ' + inspect(val));
-    if(fieldname == 'username') { nickname = val; }
+    if(fieldname == 'nickname') { nickname = val; }
     if(fieldname == 'email') { email = val; }
     if(fieldname == 'password') { password = val; }
 
