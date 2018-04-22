@@ -26,17 +26,23 @@ function mapDispatchToProps(dispatch){
       })
     },
     
-    registerSubmit(username, email, passwordOne, passwordTwo){
+    registerSubmit(nickname, email, passwordOne, passwordTwo){
       console.log(`inside mapDispatchToProps, registerSubmit`);
       // console.log(formsInput);
       dispatch({
         type: 'REGISTER_SUBMIT_S',
         payload: { 
-          username,
+          nickname,
           email,
           passwordOne,
           passwordTwo
          }
+      })
+    },
+
+    resetForm(){
+      dispatch({
+        type: 'REGISTER_RESETFORM_R'
       })
     }
   }
