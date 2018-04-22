@@ -160,12 +160,10 @@ router.post('/setlocation', (req, res, next)=>{
   console.log(`inside post setlocation req.headers below`);
   console.log(req.headers);
   
-  // Create a busboy instance limiting the number of files
-  // to one and the file size to 500kb
+  // Create a busboy instance
   console.log(`inside post setlocation, before new Busboy\n`);
   let busboy = new Busboy({ 
-    headers: req.headers,  
-    limits: { files: 1, fileSize: 510000 }  
+    headers: req.headers
   });
   
   console.log(`inside post setlocation before token slice\n`);
@@ -190,7 +188,7 @@ router.post('/setlocation', (req, res, next)=>{
         console.log(`inside verify token error, error below`);
         console.log(err);
         
-        return res.send({ 
+        return res.send({
           error: true,
           status: 'tokenfail',
           message: 'Failed to authenticate token.' 
@@ -205,12 +203,6 @@ router.post('/setlocation', (req, res, next)=>{
         busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
           console.log('Field [' + fieldname + ']: value: ' + inspect(val));
           if(fieldname == 'location') { location = JSON.parse(val); }
-          
-          /*
-          if(fieldname == 'locality') { location.locality = val; }
-          if(fieldname == 'administrative_area_level_1') { location.administrative_area_level_1 = val; }
-          if(fieldname == 'country') { location.country = val; }
-          */
         });
 
         busboy.on('error', function(err){
@@ -218,6 +210,7 @@ router.post('/setlocation', (req, res, next)=>{
           console.log(err);
           res.send({ 
             error: true, 
+            status: 'setlocationerror',
             message: 'Setting location failed. Please try again.' });
         });
 
@@ -233,7 +226,16 @@ router.post('/setlocation', (req, res, next)=>{
               // it will set headers twice, maybe later
               if(err){
                 console.log(`ERROR inside account update, error saving the listing`);
-                res.status(455).send({ error: true, message: 'Error setting the location!' });
+                res.send({ 
+                  error: true,
+                  status: 'setlocationerror',
+                  message: 'Error setting the location!' });
+              } else {
+                res.send({
+                  error: false,
+                  status: 'setlocationsuccess',
+                  message: 'Location saved'
+                });
               }
           });
 
