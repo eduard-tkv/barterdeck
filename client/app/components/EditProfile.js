@@ -110,6 +110,7 @@ class EditProfile extends Component {
                     </div>
                     <button type="submit" className="btn btn-default custom-btn">submit</button>
                     <div className="form-errors">
+                      { this.props.editProfile.message }
                       { this.props.editProfile.error ? 
                         this.props.editProfile.errorMessage : '' }
                   </div>
@@ -135,8 +136,9 @@ class EditProfile extends Component {
                   </div> 
                      <button onClick={this.setLocation} type="button" className="btn btn-default custom-btn">Set Location</button>
                   <div className="form-errors">
-                      { this.props.editProfile.error ? 
-                        this.props.editProfile.errorMessage : '' }
+                    { this.props.editProfile.setLocationMessage }
+                    { this.props.editProfile.setLocationError ? 
+                      this.props.editProfile.setLocationErrorMessage : '' }
                   </div>
                  </form>
                 </div>
