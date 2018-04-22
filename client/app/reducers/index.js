@@ -99,14 +99,8 @@ export default function reducer(state=initialState, action){
         ...state,
         register: {
           ...state.register,
-          errors: {
-            ...state.register.errors,
-            passwordsDontMatch: {
-              ...state.register.errors.passwordsDontMatch,
-              its: true,
-              msg: 'Passwords don\'t match!'
-            }
-          }
+          error: true,
+          errorMessage: 'Passwords must match!'
         }
       }
     break;
@@ -200,6 +194,24 @@ export default function reducer(state=initialState, action){
     case 'SETLOCATION_RESPONSE':
       console.log(`inside set location response saga, response below`);
       console.log(action);
+      if(action.payload.error){
+        return {
+          ...state,
+          editProfile: {
+            ...state.editProfile,
+            error: true,
+            setLocationErrorMessage: action.payload.message
+          }
+        }
+      } else {
+        return {
+          ...state,
+          editProfile: {
+            ...state.editProfile,
+            message: action.payload.message
+          }
+        }
+      }
     break;
     
     /*

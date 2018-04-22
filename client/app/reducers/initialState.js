@@ -47,6 +47,13 @@ export default {
         administrative_area_level_1: '',
         country: ''
       }
-    }
+    },
+    message: '',
+    error: false,
+    errorMessage: '',
+    setLocationMessage: '',
+    setLocationError: false,
+    setLocationErrorMsg: ''
+    
   }
 };
