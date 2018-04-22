@@ -153,7 +153,21 @@ export default function reducer(state=initialState, action){
           }
         }
       }
-    break; 
+    break;
+    case 'REGISTER_RESETFORM_R':
+      return {
+        ...state, 
+        register: {
+          ...state.register,
+          form: {
+            nickname: '',
+            email: '',
+            passwordOne: '',
+            passwordTwo: ''
+          }
+          }
+      }
+    break;     
     case 'LISTITEM_RESPONSE':
       if(action.payload.error){
         return {

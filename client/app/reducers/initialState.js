@@ -17,7 +17,7 @@ export default {
   },
   register: {
     form: {
-      username: '',
+      nickname: '',
       email: '',
       passwordOne: '',
       passwordTwo: ''
