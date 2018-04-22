@@ -134,6 +134,10 @@ class EditProfile extends Component {
                     </div>
                   </div> 
                      <button onClick={this.setLocation} type="button" className="btn btn-default custom-btn">Set Location</button>
+                  <div className="form-errors">
+                      { this.props.editProfile.error ? 
+                        this.props.editProfile.errorMessage : '' }
+                  </div>
                  </form>
                 </div>
              </div>

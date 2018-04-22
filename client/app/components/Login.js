@@ -42,12 +42,8 @@ class Login extends Component {
   }
   
   handleUserInput(e){
-    //e.preventDefault();
-    //alert(`haha`);
     const name = convertToCamelcase(e.target.name);
     const value = e.target.value;
-    //console.log(`inside handleUserInput, name and value below`);
-    //console.log(`${name} : ${value}`);
     this.props.loginFormValues(name, value);
   }
 
