@@ -1,7 +1,5 @@
 export default {
-	count: 0,
   listings28: [],
-  isFetching: false,
   user: {
     nickname: '',
     loggedIn: false
@@ -54,6 +52,5 @@ export default {
     setLocationMessage: '',
     setLocationError: false,
     setLocationErrorMsg: ''
-    
   }
 };
