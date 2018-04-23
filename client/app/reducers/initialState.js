@@ -46,6 +46,7 @@ export default {
         country: ''
       }
     },
+    complete: false,
     message: '',
     error: false,
     errorMessage: '',

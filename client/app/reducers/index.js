@@ -213,7 +213,7 @@ export default function reducer(state=initialState, action){
           ...state,
           editProfile: {
             ...state.editProfile,
-            error: true,
+            setLocationError: true,
             setLocationErrorMessage: action.payload.message
           }
         }
@@ -222,23 +222,32 @@ export default function reducer(state=initialState, action){
           ...state,
           editProfile: {
             ...state.editProfile,
-            message: action.payload.message
+            setLocationMessage: action.payload.message
           }
         }
       }
     break;
-    
-    /*
-    case 'LOGIN_SUBMIT_RESPONSE':
-      console.log(`inside reducer LOGIN SUBMIT RESPONSE, action payload below`);
-      console.log(action.payload);
-      if(action.payload.registrationSuccess) { 
-        return { ...state, userStatus: { ...state.userStatus, loggedIn: true } };
-      } else {
-        return { ...state, errors: { ...state.errors, loginError: true } };
+    case 'EDITPROFILE_RESPONSE_R':
+    if(action.payload.error){
+      return {
+        ...state,
+        editProfile: {
+          ...state.editProfile,
+          error: true,
+          errorMessage: 'Error saving profile. Please try again'
+        }
       }
-      break;
-      */    
+    } else {
+      return {
+        ...state,
+        editProfile: {
+          ...state.editProfile,
+          error: false,
+          message: 'Profile saved'
+        }
+      }
+    }
+    break;
 		default:
 		  return state;
 	}
