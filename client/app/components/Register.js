@@ -21,7 +21,6 @@ class Register extends Component {
     console.log(`inside component will mount`);
   }
   
-  
   componentWillReceiveProps(nextProps){
     console.log(`inside component will receive props, below are props`);
     console.log(this.props);
@@ -29,7 +28,7 @@ class Register extends Component {
     console.log(nextProps);
     
     if(nextProps.user.loggedIn){
-      alert(nextProps.register.message);
+      this.props.resetForm();
       this.props.history.push('/edit-profile');
     }
     
@@ -50,12 +49,8 @@ class Register extends Component {
   }
   
   handleUserInput(e){
-    //e.preventDefault();
-    //alert(`haha`);
     const name = convertToCamelcase(e.target.name);
     const value = e.target.value;
-    //console.log(`inside handleUserInput, name and value below`);
-    //console.log(`${name} : ${value}`);
     this.props.registerFormValues(name, value);
   }
 

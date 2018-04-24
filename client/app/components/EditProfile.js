@@ -84,8 +84,11 @@ class EditProfile extends Component {
     <div className="row">
         <div className="col-md-7">
             <div className="form-block">
-              <h2>Register</h2>
+              <h2>Edit Profile</h2>
               <div className="form login-form">
+              <div>
+                { this.props.editProfile.complete ? '' : 'Please take a moment to complete your profile' }
+              </div>
                 <form id="editprofile" onSubmit={ this.submitForm }>
                     <div className="form-group">
                       <input required type="text" className="form-control" placeholder="Enter first name" name="firstname" 
