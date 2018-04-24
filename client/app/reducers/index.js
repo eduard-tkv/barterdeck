@@ -150,6 +150,9 @@ export default function reducer(state=initialState, action){
           },
           register: {
             message: action.payload.message
+          },
+          editProfile: {
+            complete: false
           }
         }
       }
@@ -243,7 +246,8 @@ export default function reducer(state=initialState, action){
         editProfile: {
           ...state.editProfile,
           error: false,
-          message: 'Profile saved'
+          message: 'Profile saved',
+          complete: true
         }
       }
     }
