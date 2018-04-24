@@ -9,6 +9,7 @@ import { watchRegisterSubmit } from './registerSubmit';
 import { watchLoginSubmit } from './loginSubmit';
 import { watchListItemSubmit } from './listItemSubmit';
 import { watchSetLocation } from './setLocation';
+import { watchEditProfileSubmit } from './editProfileSubmit';
 
 import {
   SUBMIT_FORMS_S,
