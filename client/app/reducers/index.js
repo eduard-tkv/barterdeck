@@ -82,17 +82,6 @@ export default function reducer(state=initialState, action){
         } 
       };
     break;        
-    /*
-    case 'LOGIN_INPUT_TOO_LONG':
-      return { 
-        ...state, 
-        loginForm: { 
-          ...state.loginForm, 
-          inputTooLong: action.payload 
-        } 
-      };
-    break;
-    */
     case 'REGISTER_ERROR_PASSWORDS_DONTMATCH':
     console.log(`inside reducer passwords dont match`);
       return  {
@@ -168,20 +157,6 @@ export default function reducer(state=initialState, action){
         }
       }
     break;
-    case 'REGISTER_RESETFORM_R':
-      return {
-        ...state, 
-        register: {
-          ...state.register,
-          form: {
-            nickname: '',
-            email: '',
-            passwordOne: '',
-            passwordTwo: ''
-          }
-        }
-      }
-    break;     
     case 'LISTITEM_RESPONSE':
       if(action.payload.error){
         return {
@@ -202,23 +177,6 @@ export default function reducer(state=initialState, action){
         }
       }
     break;
-    /*
-    case 'EDITPROFILE_LOCATION_INPUT_R':
-      return {
-        ...state,
-        editProfile: {
-          ...state.editProfile,
-          form: {
-            ...state.editProfile.form,
-            location: {
-              ...state.editProfile.form.location,
-              locality: action.payload
-            }
-          }
-        }
-      }
-    break;
-    */
     case 'SETLOCATION_RESPONSE':
       console.log(`inside set location response saga, response below`);
       console.log(action);
