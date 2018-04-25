@@ -149,10 +149,21 @@ export default function reducer(state=initialState, action){
             loggedIn: true
           },
           register: {
-            message: action.payload.message
+            message: action.payload.message,
+            form: {
+              nickname: '',
+              email: '',
+              passwordOne: '',
+              passwordTwo: ''
+            }
           },
           editProfile: {
-            complete: false
+            complete: false,
+            form: {
+              firstName: '',
+              lastName: '',
+              aboutMe: ''
+            }
           }
         }
       }
@@ -168,7 +179,7 @@ export default function reducer(state=initialState, action){
             passwordOne: '',
             passwordTwo: ''
           }
-          }
+        }
       }
     break;     
     case 'LISTITEM_RESPONSE':
