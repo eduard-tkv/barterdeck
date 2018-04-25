@@ -16,9 +16,8 @@ class Register extends Component {
     this.submitForm = this.submitForm.bind(this);
   }
 
-  
   componentWillMount(){
-    console.log(`inside component will mount`);
+    console.log(`inside register component will mount`);
   }
   
   componentWillReceiveProps(nextProps){
@@ -28,6 +27,7 @@ class Register extends Component {
     console.log(nextProps);
     
     if(nextProps.user.loggedIn){
+      alert(nextProps.register.message);
       this.props.resetForm();
       this.props.history.push('/edit-profile');
     }

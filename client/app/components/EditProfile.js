@@ -8,7 +8,7 @@ import '../../build/assets/css/style.css';
 class EditProfile extends Component {
   constructor(props){
     super(props);
-    console.log(`props below Register`);
+    console.log(`props below EditProfile`);
     console.log(props);
    
     this.handleUserInput = this.handleUserInput.bind(this);
@@ -17,7 +17,7 @@ class EditProfile extends Component {
   }
   
   componentWillMount(){
-    console.log(`inside component will mount`);
+    console.log(`inside editProfile component will mount`);
   }
   
   componentWillReceiveProps(nextProps){
@@ -68,8 +68,8 @@ class EditProfile extends Component {
   }
 
   render(){
-    console.log(`inside render this.props below`);
-    console.log(this.props);
+    //console.log(`inside render this.props below`);
+    //console.log(this.props);
     return (
 
     <div className="container">
