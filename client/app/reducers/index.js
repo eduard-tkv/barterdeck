@@ -194,7 +194,8 @@ export default function reducer(state=initialState, action){
           ...state,
           editProfile: {
             ...state.editProfile,
-            setLocationMessage: action.payload.message
+            setLocationMessage: action.payload.message,
+            setLocationDone: true
           }
         }
       }
