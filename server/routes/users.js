@@ -151,27 +151,29 @@ router.post('/login', parserFalse, (req, res, next) => {
 
 router.post('/editprofile', (req, res, next)=>{
   
-  let location;
+  let firstName = '';
+  let lastName = '';
+  let aboutMe = '';
   let query = '';
   let token = null;
   
-  console.log(`inside post setlocation\n`);
-  console.log(`inside post setlocation req.headers below`);
+  console.log(`inside post editprofile\n`);
+  console.log(`inside post editprofile req.headers below`);
   console.log(req.headers);
   
   // Create a busboy instance
-  console.log(`inside post setlocation, before new Busboy\n`);
+  console.log(`inside post editprofile, before new Busboy\n`);
   let busboy = new Busboy({ 
     headers: req.headers
   });
   
-  console.log(`inside post setlocation before token slice\n`);
+  console.log(`inside post editprofile before token slice\n`);
   
   // Extract the token from headers.authorization
   if(req.headers.authorization){
     token = req.headers.authorization.slice(7);
   }
-  console.log(`inside post setlocation after token slice\n`);
+  console.log(`inside post editproifle after token slice\n`);
  
   
   if (token) {
@@ -201,7 +203,9 @@ router.post('/editprofile', (req, res, next)=>{
 
         busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
           console.log('Field [' + fieldname + ']: value: ' + inspect(val));
-          if(fieldname == 'location') { location = JSON.parse(val); }
+          if(fieldname == 'firstName') { firstName = JSON.parse(val); }
+          if(fieldname == 'lastName') { lastName = JSON.parse(val); }
+          if(fieldname == 'aboutMe') { aboutMe = JSON.parse(val); }
         });
 
         busboy.on('error', function(err){
@@ -217,9 +221,14 @@ router.post('/editprofile', (req, res, next)=>{
         busboy.on('finish', function() {
           console.log(`Done parsing form! Inside finish busboy setlocation`);
           
-          let setLocation = { $push: { location: location } };
+          let editProfile = { $push: { 
+              firstName: firstName,
+              lastName: lastName,
+              aboutMe: aboutMe
+            } 
+          };
         
-            Account.findOneAndUpdate(query, setLocation, function(err, doc){
+            Account.findOneAndUpdate(query, editProfile, function(err, doc){
               console.log(`inside account update save listing details\n`);
               // Not checking for err for now as
               // it will set headers twice, maybe later
@@ -227,14 +236,14 @@ router.post('/editprofile', (req, res, next)=>{
                 console.log(`ERROR inside account update, error saving the listing`);
                 res.send({ 
                   error: true,
-                  status: 'setlocationerror',
-                  message: 'Error setting the location!' });
+                  status: 'editprofileerror',
+                  message: 'Error saving the profile!' });
               } else {
-                console.log(`location updated in database successfully, sending success response`);
+                console.log(`profile updated in database successfully, sending success response`);
                 res.send({
                   error: false,
-                  status: 'setlocationsuccess',
-                  message: 'Location saved'
+                  status: 'editprofilesuccess',
+                  message: 'Profile saved'
                 });
               }
           });
