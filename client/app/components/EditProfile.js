@@ -111,7 +111,7 @@ class EditProfile extends Component {
                         value={this.props.editProfile.form.aboutMe}
                         onChange={this.handleUserInput}/>
                     </div>
-                    <button type="submit" className="btn btn-default custom-btn">submit</button>
+                    <button type="submit" className="btn btn-default custom-btn">Submit</button>
                     <div className="form-errors">
                       { this.props.editProfile.message }
                       { this.props.editProfile.error ? 
@@ -127,7 +127,11 @@ class EditProfile extends Component {
                 <div className="form login-form">
                  <form>
                   <div className="form-group">
-                    <label className="control-label" htmlFor="pwd">Not set</label>
+                    { this.props.editProfile.setLocationDone
+                      ? <label className="control-label">Your Location</label>
+                      : <label className="control-label">Please set your location</label>
+                    }
+                    <label className="control-label">Not set</label>
                     <div>          
                       <input type="text" id="autocomplete" className="form-control" placeholder="start typing your city" name="set-location" />
                     </div>
