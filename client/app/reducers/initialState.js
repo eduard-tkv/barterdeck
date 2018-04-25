@@ -50,6 +50,7 @@ export default {
     message: '',
     error: false,
     errorMessage: '',
+    setLocationDone: false,
     setLocationMessage: '',
     setLocationError: false,
     setLocationErrorMessage: ''
