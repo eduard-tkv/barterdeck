@@ -177,6 +177,18 @@ export default function reducer(state=initialState, action){
         }
       }
     break;
+		case 'EDITPROFILE_FORM_VALUES_R':
+      return { 
+        ...state,  
+        editProfile: {
+          ...state.editProfile,
+          form:{
+            ...state.editProfile.form,
+            [action.payload.name]: action.payload.value
+          }
+        } 
+      };  
+    break;    
     case 'SETLOCATION_RESPONSE':
       console.log(`inside set location response saga, response below`);
       console.log(action);
