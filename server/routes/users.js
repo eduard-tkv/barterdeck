@@ -149,6 +149,117 @@ router.post('/login', parserFalse, (req, res, next) => {
 });
 
 
+router.post('/editprofile', (req, res, next)=>{
+  
+  let location;
+  let query = '';
+  let token = null;
+  
+  console.log(`inside post setlocation\n`);
+  console.log(`inside post setlocation req.headers below`);
+  console.log(req.headers);
+  
+  // Create a busboy instance
+  console.log(`inside post setlocation, before new Busboy\n`);
+  let busboy = new Busboy({ 
+    headers: req.headers
+  });
+  
+  console.log(`inside post setlocation before token slice\n`);
+  
+  // Extract the token from headers.authorization
+  if(req.headers.authorization){
+    token = req.headers.authorization.slice(7);
+  }
+  console.log(`inside post setlocation after token slice\n`);
+ 
+  
+  if (token) {
+    console.log(`token below`);
+    console.log(token);
+    
+    console.log(`token secret key below`);
+    console.log(config.jwtSecret);
+    
+    // decode token, verifies secret and checks exp
+    jwt.verify(token, config.jwtSecret, function(err, decoded) {
+      if (err) {
+        console.log(`inside verify token error, error below`);
+        console.log(err);
+        
+        return res.send({
+          error: true,
+          status: 'tokenfail',
+          message: 'Failed to authenticate token.' 
+        });  
+        next();
+      } else {
+                
+        console.log(`inside verify token NO error, decoded token below`);
+        console.log(decoded);
+        query = { "_id": decoded.user };
+
+        busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+          console.log('Field [' + fieldname + ']: value: ' + inspect(val));
+          if(fieldname == 'location') { location = JSON.parse(val); }
+        });
+
+        busboy.on('error', function(err){
+          console.log('inside busboy error, error message below');
+          console.log(err);
+          res.send({ 
+            error: true, 
+            status: 'setlocationerror',
+            message: 'Setting location failed. Please try again.' });
+        });
+
+        // Upon finishing form and image upload save the form and image name in db
+        busboy.on('finish', function() {
+          console.log(`Done parsing form! Inside finish busboy setlocation`);
+          
+          let setLocation = { $push: { location: location } };
+        
+            Account.findOneAndUpdate(query, setLocation, function(err, doc){
+              console.log(`inside account update save listing details\n`);
+              // Not checking for err for now as
+              // it will set headers twice, maybe later
+              if(err){
+                console.log(`ERROR inside account update, error saving the listing`);
+                res.send({ 
+                  error: true,
+                  status: 'setlocationerror',
+                  message: 'Error setting the location!' });
+              } else {
+                console.log(`location updated in database successfully, sending success response`);
+                res.send({
+                  error: false,
+                  status: 'setlocationsuccess',
+                  message: 'Location saved'
+                });
+              }
+          });
+
+
+        });
+        
+        req.pipe(busboy);
+      }
+    });
+
+  } else {
+    return res.json({ 
+      error: true, 
+      status: 'notoken', 
+      message: 'No token found.' }); 
+    next();
+  }
+  
+  // status codes:
+  // 'notoken' - redirect to login page
+  // 'tokenfail' - redirect to login page
+  // in all other cases display the error
+});
+
 
 router.post('/setlocation', (req, res, next)=>{
   
@@ -216,7 +327,7 @@ router.post('/setlocation', (req, res, next)=>{
 
         // Upon finishing form and image upload save the form and image name in db
         busboy.on('finish', function() {
-          console.log('Done parsing form!, listing detals below');
+          console.log(`Done parsing form! Inside finish busboy setlocation`);
           
           let setLocation = { $push: { location: location } };
         
@@ -231,6 +342,7 @@ router.post('/setlocation', (req, res, next)=>{
                   status: 'setlocationerror',
                   message: 'Error setting the location!' });
               } else {
+                console.log(`location updated in database successfully, sending success response`);
                 res.send({
                   error: false,
                   status: 'setlocationsuccess',
