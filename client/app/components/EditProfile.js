@@ -46,8 +46,7 @@ class EditProfile extends Component {
       this.props.registerSubmit(
         this.props.editProfile.form.firstName,
         this.props.editProfile.form.lastName, 
-        this.props.editProfile.form.passwordOne,
-        this.props.editProfile.form.passwordTwo
+        this.props.editProfile.form.aboutMe,
       );
   }
   
@@ -64,7 +63,7 @@ class EditProfile extends Component {
   handleUserInput(e){
     const name = convertToCamelcase(e.target.name);
     const value = e.target.value;
-    this.props.registerFormValues(name, value);
+    this.props.editProfile.formValues(name, value);
   }
 
   render(){
