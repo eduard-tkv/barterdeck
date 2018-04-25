@@ -8,7 +8,8 @@ import EditProfile from '../components/EditProfile';
 // basically a container component will pass props to the corresponding presentational component
 function mapStateToProps(state){
   return {
-    editProfile: state.editProfile
+    editProfile: state.editProfile,
+    register: state.register
   }
 }
 
@@ -16,32 +17,31 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
   // console.log(`inside products mapdispatchtoprops`);
   return {
-    profileFormValues(name, value){
+    formValues(name, value){
       console.log(`inside registeFormValues redux, name and value below:`);
       console.log(`name: ${name} and value: ${value}`);
       dispatch({
-          type: 'PROFILE_FORM_VALUES_R',
+          type: 'EDITPROFILE_FORM_VALUES_R',
           payload: { name, value }
       })
     },
 
-    editProfileSetLocation(payload){
+    setLocation(payload){
       dispatch({
         type: 'EDITPROFILE_SET_LOCATION_S',
         payload: payload
       })
     },
     
-    profileSubmit(username, email, passwordOne, passwordTwo){
-      console.log(`inside mapDispatchToProps, registerSubmit`);
+    submitForm(firstName, lastName, aboutMe){
+      console.log(`inside mapDispatchToProps, editprofileSubmit`);
       // console.log(formsInput);
       dispatch({
-        type: 'PROFILE_SUBMIT_S',
+        type: 'EDITPROFILE_SUBMIT_S',
         payload: { 
-          username,
-          email,
-          passwordOne,
-          passwordTwo
+          firstName,
+          lastName,
+          aboutMe
          }
       })
     }

@@ -9,7 +9,8 @@ import Register from '../components/Register';
 function mapStateToProps(state){
   return {
     register: state.register,
-    user: state.user
+    user: state.user,
+    editProfile: state.editProfile
   }
 }
 
