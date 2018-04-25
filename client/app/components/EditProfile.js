@@ -27,9 +27,9 @@ class EditProfile extends Component {
     console.log(nextProps);
 
     /*
-    if(nextProps.userStatus.loggedin){
-      alert(nextProps.userStatus.message);
-      this.props.history.push('/login');
+    if(nextProps.editProfile.setLocationDone){
+      alert(`setlocationdone is true`);
+      this.props.history.push('/edit-profile');
     }
     */
   }
@@ -85,10 +85,10 @@ class EditProfile extends Component {
         <div className="col-md-7">
             <div className="form-block">
               <h2>Edit Profile</h2>
-              <div className="form login-form">
               <div>
                 { this.props.editProfile.complete ? '' : 'Please take a moment to complete your profile' }
               </div>
+              <div className="form login-form">
                 <form id="editprofile" onSubmit={ this.submitForm }>
                     <div className="form-group">
                       <input required type="text" className="form-control" placeholder="Enter first name" name="firstname" 
@@ -123,15 +123,13 @@ class EditProfile extends Component {
         </div>
         <div className="col-md-5">
              <div className="form-block">
-                <h2>Edit Location</h2>
+              { this.props.editProfile.setLocationDone
+                ? <h2>Your Location</h2>
+                : <h2>Please set your location</h2>
+              }
                 <div className="form login-form">
                  <form>
                   <div className="form-group">
-                    { this.props.editProfile.setLocationDone
-                      ? <label className="control-label">Your Location</label>
-                      : <label className="control-label">Please set your location</label>
-                    }
-                    <label className="control-label">Not set</label>
                     <div>          
                       <input type="text" id="autocomplete" className="form-control" placeholder="start typing your city" name="set-location" />
                     </div>
@@ -143,7 +141,6 @@ class EditProfile extends Component {
                   </div> 
                      <button onClick={this.setLocation} type="button" className="btn btn-default custom-btn">Set Location</button>
                   <div className="form-errors">
-                    { this.props.editProfile.setLocationMessage }
                     { this.props.editProfile.setLocationError ? 
                       this.props.editProfile.setLocationErrorMessage : '' }
                   </div>
