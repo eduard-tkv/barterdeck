@@ -8,6 +8,9 @@ const Account = new Schema({
     unique: true,
     lowercase: true
   },
+  firstName: String,
+  lastName: String,
+  aboutMe: String,
   nickname:  {
     type: String,
     unique: true,
