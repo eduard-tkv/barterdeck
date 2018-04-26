@@ -203,9 +203,9 @@ router.post('/editprofile', (req, res, next)=>{
 
         busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
           console.log('Field [' + fieldname + ']: value: ' + inspect(val));
-          if(fieldname == 'firstName') { firstName = JSON.parse(val); }
-          if(fieldname == 'lastName') { lastName = JSON.parse(val); }
-          if(fieldname == 'aboutMe') { aboutMe = JSON.parse(val); }
+          if(fieldname == 'firstName') { firstName = val; }
+          if(fieldname == 'lastName') { lastName = val; }
+          if(fieldname == 'aboutMe') { aboutMe = val; }
         });
 
         busboy.on('error', function(err){
