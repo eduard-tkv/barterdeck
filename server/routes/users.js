@@ -221,7 +221,7 @@ router.post('/editprofile', (req, res, next)=>{
         busboy.on('finish', function() {
           console.log(`Done parsing form! Inside finish busboy setlocation`);
           
-          let editProfile = { $push: { 
+          let editProfile = { $set: { 
               firstName: firstName,
               lastName: lastName,
               aboutMe: aboutMe
@@ -338,7 +338,7 @@ router.post('/setlocation', (req, res, next)=>{
         busboy.on('finish', function() {
           console.log(`Done parsing form! Inside finish busboy setlocation`);
           
-          let setLocation = { $push: { location: location } };
+          let setLocation = { $set: { location: location } };
         
             Account.findOneAndUpdate(query, setLocation, function(err, doc){
               console.log(`inside account update save listing details\n`);
