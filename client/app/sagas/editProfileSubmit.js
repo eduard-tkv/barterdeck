@@ -4,9 +4,8 @@ import { apiCall } from './apiCall';
 
 function* editProfileSubmit(request){
 
-  console.log(`inside registerSubmit saga`);
-  const { firstName, lastName, bio } = request.payload;
-  request.payload.password = request.payload.passwordOne;
+  console.log(`inside editProfileSubmit saga`);
+  const { firstName, lastName, aboutMe } = request.payload;
   console.log(`request.payload is below`);
   console.log(request.payload);
 
@@ -21,14 +20,15 @@ function* editProfileSubmit(request){
     body: body
   };
 
-  let actionType = 'EDITPROFILE_RESPONSE';
+  let actionType = 'EDITPROFILE_RESPONSE_R';
 
   console.log(`inside editprofileSubmit before apiCall and options.body below`);
   console.log(options.body);
+  yield call(apiCall, path, actionType, options);
 
 }
 
 export function* watchEditProfileSubmit(){
   console.log(`inside watch register submit saga`);
-  yield takeEvery('EDITPROFILE_SUBMIT_S', registerSubmit);
+  yield takeEvery('EDITPROFILE_SUBMIT_S', editProfileSubmit);
 }

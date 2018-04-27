@@ -143,6 +143,7 @@ export default function* rootSaga(){
     watchListItemSubmit(),
     watchRegisterSubmit(),
     watchLoginSubmit(),
-    watchSetLocation()
+    watchSetLocation(),
+    watchEditProfileSubmit()
   ])
 }
