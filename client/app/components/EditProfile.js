@@ -43,7 +43,7 @@ class EditProfile extends Component {
 
   submitForm(e){
     e.preventDefault();
-      this.props.registerSubmit(
+      this.props.editProfileSubmit(
         this.props.editProfile.form.firstName,
         this.props.editProfile.form.lastName, 
         this.props.editProfile.form.aboutMe,
@@ -63,7 +63,7 @@ class EditProfile extends Component {
   handleUserInput(e){
     const name = convertToCamelcase(e.target.name);
     const value = e.target.value;
-    this.props.editProfile.formValues(name, value);
+    this.props.editProfileFormValues(name, value);
   }
 
   render(){
@@ -90,7 +90,7 @@ class EditProfile extends Component {
               <div className="form login-form">
                 <form id="editprofile" onSubmit={ this.submitForm }>
                     <div className="form-group">
-                      <input required type="text" className="form-control" placeholder="Enter first name" name="firstname" 
+                      <input required type="text" className="form-control" placeholder="Enter first name" name="first-name" 
                       title="Length should be 4 characters or more"
                       pattern=".{4,}"
                       maxLength="100"
@@ -98,7 +98,7 @@ class EditProfile extends Component {
                       onChange={ this.handleUserInput }/>
                     </div>
                     <div className="form-group">
-                      <input required type="text" className="form-control" placeholder="Enter lastname" name="lastname" 
+                      <input required type="text" className="form-control" placeholder="Enter lastname" name="last-name" 
                       pattern=".{6,}"
                       maxLength="100"
                       value={ this.props.editProfile.form.lastName }
@@ -106,7 +106,7 @@ class EditProfile extends Component {
                     </div>
                     <div className="form-group">
                       <label htmlFor="description">About Me:</label>
-                      <textarea className="form-control" rows="10" name="aboutme"
+                      <textarea className="form-control" rows="10" name="about-me"
                         value={this.props.editProfile.form.aboutMe}
                         onChange={this.handleUserInput}/>
                     </div>
