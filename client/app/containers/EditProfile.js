@@ -17,8 +17,8 @@ function mapStateToProps(state){
 function mapDispatchToProps(dispatch){
   // console.log(`inside products mapdispatchtoprops`);
   return {
-    formValues(name, value){
-      console.log(`inside registeFormValues redux, name and value below:`);
+    editProfileFormValues(name, value){
+      console.log(`inside editProfileFormValues redux, name and value below:`);
       console.log(`name: ${name} and value: ${value}`);
       dispatch({
           type: 'EDITPROFILE_FORM_VALUES_R',
@@ -26,14 +26,14 @@ function mapDispatchToProps(dispatch){
       })
     },
 
-    setLocation(payload){
+    editProfileSetLocation(payload){
       dispatch({
         type: 'EDITPROFILE_SET_LOCATION_S',
         payload: payload
       })
     },
     
-    submitForm(firstName, lastName, aboutMe){
+    editProfileSubmit(firstName, lastName, aboutMe){
       console.log(`inside mapDispatchToProps, editprofileSubmit`);
       // console.log(formsInput);
       dispatch({
@@ -52,16 +52,3 @@ function mapDispatchToProps(dispatch){
 let EditProfileContainer = connect(mapStateToProps, mapDispatchToProps)(EditProfile);
 
 export default EditProfileContainer;
-
-/* 
- * Instead of writing this way:
- * class Products extends React.Component{
- *   render(){
- *     <Products />
- *   }
- * }
- * 
- * The same functionality will be reproduced as a higher order
- * component with connect instead of es5 mixins. We will generate
- * this component with connect. Connect has access to the redux store
- */
