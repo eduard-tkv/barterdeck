@@ -11,7 +11,7 @@ import Home from '../components/home';
 function mapStateToProps(state){
   return {
     listings28: state.listings28,
-    isFetching: state.isFetching
+    viewProfile: state.viewProfile
   }
 }
 
