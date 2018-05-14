@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 import { convertToCamelcase } from '../helpers';
+import Header from './Header';
 
 import '../../build/assets/css/style.css';
 
@@ -70,7 +71,8 @@ class EditProfile extends Component {
     //console.log(`inside render this.props below`);
     //console.log(this.props);
     return (
-
+    <div>
+      <Header loggedIn = { this.props.loggedIn } />
     <div className="container">
       <div className="row">
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -85,7 +87,7 @@ class EditProfile extends Component {
             <div className="form-block">
               <h2>Edit Profile</h2>
               <div>
-                { this.props.editProfile.complete ? '' : 'Please take a moment to complete your profile' }
+                { this.props.editProfile.complete && 'Please complete your profile' }
               </div>
               <div className="form login-form">
                 <form id="editprofile" onSubmit={ this.submitForm }>
@@ -112,9 +114,12 @@ class EditProfile extends Component {
                     </div>
                     <button type="submit" className="btn btn-default custom-btn">Submit</button>
                     <div className="form-errors">
-                      { this.props.editProfile.message }
-                      { this.props.editProfile.error ? 
-                        this.props.editProfile.errorMessage : '' }
+                      
+                      { 
+                        this.props.editProfile.error 
+                        ? this.props.editProfile.errorMessage 
+                        : this.props.editProfile.message
+                      }
                   </div>
                 </form>
               </div>
@@ -122,7 +127,8 @@ class EditProfile extends Component {
         </div>
         <div className="col-md-5">
              <div className="form-block">
-              { this.props.editProfile.setLocationDone
+              { 
+                this.props.editProfile.setLocationDone
                 ? <h2>Your Location</h2>
                 : <h2>Please set your location</h2>
               }
@@ -138,16 +144,20 @@ class EditProfile extends Component {
                     <input type="text" id="country" name="country" />
                     </div>
                   </div> 
-                     <button onClick={this.setLocation} type="button" className="btn btn-default custom-btn">Set Location</button>
+                     <button onClick={ this.setLocation } type="button" className="btn btn-default custom-btn">Set Location</button>
                   <div className="form-errors">
-                    { this.props.editProfile.setLocationError ? 
-                      this.props.editProfile.setLocationErrorMessage : '' }
+                    { 
+                      this.props.editProfile.setLocationError 
+                      ? this.props.editProfile.setLocationErrorMessage
+                      : this.props.editProfile.setLocationMessage
+                    }
                   </div>
                  </form>
                 </div>
              </div>
          </div>
     </div>
+</div>
 </div>
 )}
 

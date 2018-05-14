@@ -2,7 +2,7 @@ import React from 'react';
 import { Route, Link } from 'react-router-dom';
 
 const LoginLink = ()=>(
-  <Link className="nav-link" to="/login">Logins</Link>
+  <Link className="nav-link" to="/login">Login</Link>
 );
 
 const RegisterLink = ()=>(
