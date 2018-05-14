@@ -105,15 +105,15 @@ export default function reducer(state=initialState, action){
             error: true,
             errorMessage: action.payload.message
           },
-          userStatus: {
-            loggedin: false
+          user: {
+            loggedIn: false
           }
         }
       } else {
         return {
           ...state,
           user: {
-            loggedin: true
+            loggedIn: true
           },
           login: {
             message: action.payload.message
