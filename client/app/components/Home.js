@@ -4,6 +4,7 @@ import { incrementCount, postObject } from '../actions/index';
 
 import { Route, Link } from 'react-router-dom';
 import Loader from './Loader';
+import Header from './Header';
 
 import '../../build/assets/css/app.css';
 
@@ -133,6 +134,8 @@ export default class Home extends Component {
     }
 
     return (
+      <div>
+    <Header />
     <div className="container">
       <div className="jumbotron mt-5">
         <p className="lead">Trade unwanted stuff for something you need or sell it</p>
@@ -156,6 +159,7 @@ export default class Home extends Component {
       <div>          
         <input type="text" id="autocomplete" className="form-control" placeholder="start typing your city" name="set-location" />
       </div>
+    </div>
     </div>
   
     )
