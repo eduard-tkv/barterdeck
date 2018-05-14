@@ -3,7 +3,7 @@ import { incrementCount, postObject } from '../actions/index';
 
 import { Route, Link } from 'react-router-dom';
 
-import Header from './Header';
+//import Header from './Header';
 import Home from '../containers/Home';
 import Footer from './Footer';
 

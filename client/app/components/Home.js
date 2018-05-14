@@ -135,7 +135,7 @@ export default class Home extends Component {
 
     return (
       <div>
-    <Header />
+    <Header loggedIn = { this.props.loggedIn } />
     <div className="container">
       <div className="jumbotron mt-5">
         <p className="lead">Trade unwanted stuff for something you need or sell it</p>
