@@ -9,7 +9,7 @@ import ListItem from '../components/ListItem';
 function mapStateToProps(state){
   return {
     listItem: state.listItem,
-    userStatus: state.userStatus
+    user: state.user
   }
 }
 

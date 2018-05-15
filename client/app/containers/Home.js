@@ -11,7 +11,8 @@ import Home from '../components/home';
 function mapStateToProps(state){
   return {
     listings28: state.listings28,
-    viewProfile: state.viewProfile
+    viewProfile: state.viewProfile,
+    user: state.user
   }
 }
 
@@ -21,7 +22,7 @@ function mapDispatchToProps(dispatch){
     handleInitialState(){
       console.log(`inside mapdispatchprops handleinitialstate`);
       dispatch({
-        type: 'GET_INITIAL_STATE'
+        type: 'GET_INITIAL_STATE_S'
       });
     }
   }

@@ -8,7 +8,8 @@ import ViewProfile from '../components/ViewProfile';
 // basically a container component will pass props to the corresponding presentational component
 function mapStateToProps(state){
   return {
-    viewProfile: state.viewProfile
+    viewProfile: state.viewProfile,
+    user: state.user
   }
 }
 
