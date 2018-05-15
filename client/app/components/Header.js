@@ -33,7 +33,7 @@ const Header = (props)=>(
 					<Link to="/list-item" className="nav-link">List New Item</Link>
 				</li>
 				<li className="nav-item">
-					<Link to="/edit-profile" className="nav-link">Edit Profile</Link>
+					<Link to="/view-profile" className="nav-link">View Profile</Link>
 				</li>        
 			</ul>
 

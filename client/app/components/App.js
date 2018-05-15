@@ -13,7 +13,7 @@ import ContactUser from './ContactUser';
 import EditProfile from '../containers/EditProfile';
 import ListItem from '../containers/ListItem';
 import ViewItem from './ViewItem';
-import ViewProfile from './ViewProfile';
+import ViewProfile from '../containers/ViewProfile';
 
 export default class App extends Component {
 
@@ -31,6 +31,7 @@ export default class App extends Component {
         <Route path="/login" component={ Login }/>
         <Route path="/register" component={ Register }/>
         <Route path="/list-item" component={ ListItem } />
+        <Route path="/view-profile" component={ ViewProfile } />
         <Route path="/edit-profile" component={ EditProfile } />
         <Footer />
       </div>
