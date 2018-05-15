@@ -54,5 +54,17 @@ export default {
     setLocationError: false,
     setLocationErrorMessage: '',
     setLocationDone: false
+  },
+  viewProfile: {
+    form: {
+      firstName: '',
+      lastName: '',
+      aboutMe: '',
+      location: {
+        locality: '',
+        administrative_area_level_1: '',
+        country: ''
+      }
+    }
   }
 };
