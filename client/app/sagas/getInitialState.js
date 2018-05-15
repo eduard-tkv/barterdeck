@@ -3,8 +3,8 @@ import { apiCall } from './apiCall';
 
 function* getInitialState(){
 
-  let actionType = 'RESPONSE_INITIAL_STATE';
-  let path = 'react/listings28';
+  let actionType = 'INITIAL_STATE_RESPONSE';
+  let path = 'homepage';
   let options = {
     method: 'GET'
   };
@@ -14,5 +14,5 @@ function* getInitialState(){
 
 export function* watchInitialState(){
   console.log(`inside watch initial state`);
-  yield takeEvery('GET_INITIAL_STATE', getInitialState);
+  yield takeEvery('GET_INITIAL_STATE_S', getInitialState);
 }

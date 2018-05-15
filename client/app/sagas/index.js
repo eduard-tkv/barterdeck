@@ -20,6 +20,7 @@ import {
   GET_INITIAL_STATE
 } from '../constants/actionTypes';
 
+/*
 function* listItemFormSubmit(request){
   console.log(`inside listitemformsubmit saga, request below`);
   console.log(request);
@@ -28,6 +29,7 @@ function* listItemFormSubmit(request){
 function* watchListItemFormSubmit(){
   yield takeEvery('LIST_ITEM_FORM_SUBMIT_S', listItemFormSubmit);
 }
+*/
 
 // Start getInitialState
 /*
@@ -50,6 +52,7 @@ function* watchInitialState(){
 
 // Start Forms Submit
 
+/*
 function* submitForms(request){
 
   const {formId, username, email, passwordOne, passwordTwo } = request.payload;
@@ -92,17 +95,20 @@ function* submitForms(request){
   };
   */
 
+  /*
   var body = new FormData();
   body.append('username', username);
   body.append('email', email);
   body.append('password', passwordOne);
-
+  */
   /*
   fetch('/avatars', {
     method: 'POST',
     body: data
   })  
   */
+
+  /*
   let options = {
     method: 'POST',
     body: body
@@ -136,10 +142,10 @@ function* watchRegisterSubmit(){
   yield takeEvery('REGISTER_SUBMIT_S', registerSubmit);
 }
 */
+
 export default function* rootSaga(){
   yield all([
     watchInitialState(),
-    watchSubmitForms(),
     watchListItemSubmit(),
     watchRegisterSubmit(),
     watchLoginSubmit(),
