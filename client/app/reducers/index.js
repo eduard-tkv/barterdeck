@@ -154,14 +154,6 @@ export default function reducer(state=initialState, action){
               passwordOne: '',
               passwordTwo: ''
             }
-          },
-          editProfile: {
-            complete: false,
-            form: {
-              firstName: '',
-              lastName: '',
-              aboutMe: ''
-            }
           }
         }
       }
