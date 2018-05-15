@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
+import Header from './Header';
 
 import { convertToCamelcase } from '../helpers';
 
@@ -42,23 +43,14 @@ class ListItem extends Component{
     this.props.listItemAttachImage(e.target.files[0]);
   }
 
-  /*
-  fileUpload(file){
-    const url = 'http://example.com/file-upload';
-    const formData = new FormData();
-    formData.append('file',file)
-    const config = {
-      headers: {
-          'content-type': 'multipart/form-data'
-      }
-    }
-    return  post(url, formData,config)
-  }
-  */
   render(){
     console.log(`inside render listItem, props below`);
-    console.log(this.props.listItem);
+    console.log(this.props);
+    console.log(`inside render listItem, this.props.user.loggedIn below`);
+    console.log(this.props.user.loggedIn);
     return(
+      <div>
+        <Header loggedIn={ this.props.user.loggedIn }/>
     <div className="container">
 
         <div className="mt-5">
@@ -137,6 +129,7 @@ class ListItem extends Component{
           </div>
       </div>
       </div> 
+      </div>
     )
   }
 }

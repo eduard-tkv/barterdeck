@@ -20,12 +20,12 @@ const Header = (props)=>(
 		<div className="collapse navbar-collapse" id="navbarCollapse">
 			<ul className="navbar-nav mr-auto">
 				<li className="nav-item active">
-          { props.loggedIn &&
+          { !props.loggedIn &&
 					  <LoginLink />
           }
 				</li>
         <li className="nav-item">
-          { props.loggedIn &&
+          { !props.loggedIn &&
 					  <RegisterLink />
           }
 				</li>
