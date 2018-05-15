@@ -12,8 +12,17 @@ import {
 
 export default function reducer(state=initialState, action){
 	switch(action.type){
-		case RESPONSE_INITIAL_STATE:
-			return { ...state, listings28: action.payload, isFetching: false };
+    case 'INITIAL_STATE_RESPONSE':
+      console.log(`inside initial state response, response below`);
+      console.log(action.payload);
+			return { 
+        ...state, 
+        listings28: action.payload.listings,
+        user: {
+          ...state.user,
+          loggedIn: action.payload.loggedIn
+        }
+      };
     break;
     case RESPONSE_INITIAL_STATE_ERROR:
     console.log(`inside response initial state error`);
