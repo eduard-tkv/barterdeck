@@ -366,7 +366,6 @@ router.post('/setlocation', (req, res, next)=>{
         req.pipe(busboy);
       }
     });
-
   } else {
     return res.json({ 
       error: true, 
@@ -380,10 +379,6 @@ router.post('/setlocation', (req, res, next)=>{
   // 'tokenfail' - redirect to login page
   // in all other cases display the error
 });
-
-
-
-
 
 
 //  '/listitem'
@@ -556,7 +551,8 @@ router.post('/listitem', (req, res, next)=>{
          // listing details and the file name in the db
          if(!limitReach){
             Account.findOneAndUpdate(query, saveListing, function(err, doc){
-              console.log(`inside account update save listing details\n`);
+              console.log(`inside account update save listing details users email below\n`);
+              console.log(doc.email);
               // Not checking for err for now as
               // it will set headers twice, maybe later
               if(err){
@@ -594,16 +590,17 @@ router.post('/listitem', (req, res, next)=>{
 
 // Homepage. Retrieve listings for homepage for either guests or
 // registered users
-router.get('/homepage', parserTrue, (req, res)=>{
+router.get('/homepage', (req, res)=>{
   
   console.log(`inside get listings28`);
   
   let listings28 = lists.listings28();
   let listings28user = lists.listings28user();
 
-  console.log(`inside get listings28 before token slice, req.headers below`);
-  console.log(req.headers);
-  var token = req.headers.authorization.slice(7);
+  // Extract the token from headers.authorization
+  if(req.headers.authorization){
+    token = req.headers.authorization.slice(7);
+  }
   console.log(`inside get listings28 after token slice`);
  
   // decode token
@@ -619,18 +616,37 @@ router.get('/homepage', parserTrue, (req, res)=>{
       if (err) {
         console.log(`inside verify token error, error below`);
         console.log(err);
+        // in future will return random listings because the user not loggedin
         res.json(listings28);
         //return res.json({ error: true, message: 'Failed to authenticate token.' });  
       } else {
         console.log(`inside verify token NO error, decoded token below`);
         console.log(decoded);
-        res.json(listings28user);
+        console.log(`inside account findone users email below\n`);
+        console.log(decoded.email);
+        let query = { "_id": decoded.user };
+        Account.findOne(query, function(err, doc){
+          console.log(`inside account findone users email below\n`);
+          if(err){
+            console.log(`ERROR inside account update, error saving the listing`);
+            res.status(455).send({ error: true, message: 'Error! Please try again later.' });
+          } else {
+              console.log(`inside account findone users nickname below\n`);
+              console.log(doc.nickname);
+              console.log(`inside sending listings and user nickaname\n`);
+              // in future will send user location specific listings
+              res.json({
+                listings: listings28user,
+                loggedIn: true,
+                nickname: doc.nickname
+              });
+          }
+        });
         // if everything is good, save to request for use in other routes
         //req.decoded = decoded;    
         //next();
       }
     });
-
   } else {
     console.log(`inside if no token, serve listings28`);
     res.json(listings28);
