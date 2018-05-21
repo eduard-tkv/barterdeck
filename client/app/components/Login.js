@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
+import Header from './Header';
 
 import { convertToCamelcase } from '../helpers';
 
@@ -51,7 +52,8 @@ class Login extends Component {
     console.log(`inside render this.props below`);
     console.log(this.props);
 return (
-
+  <div>
+    <Header loggedIn = {this.props.user.loggedIn} />
     <div className="container">
     <div className="row">
        <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
@@ -97,6 +99,7 @@ return (
         </div>
     </div>
 </div>
+</div>  
 )}
 
 }
