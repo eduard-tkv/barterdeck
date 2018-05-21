@@ -23,15 +23,6 @@ export default class Home extends Component {
   }
   
   render(){
-  
-    // I need to know the total number of listings so I can calculate the number of pages
-    // Grab first 28 listings.
-    // Check if the length is 28 or more, otherwise its just one page.
-    // 
-
-
-
-
     // If isFetching is false then the data from the server has been loaded
     if(!this.props.isFetching){
       var tempArr = [];
