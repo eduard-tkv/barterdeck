@@ -617,7 +617,9 @@ router.get('/homepage', (req, res)=>{
         console.log(`inside verify token error, error below`);
         console.log(err);
         // in future will return random listings because the user not loggedin
-        res.json(listings28);
+        res.json({
+          listings: listings28
+        });
         //return res.json({ error: true, message: 'Failed to authenticate token.' });  
       } else {
         console.log(`inside verify token NO error, decoded token below`);
@@ -649,7 +651,10 @@ router.get('/homepage', (req, res)=>{
     });
   } else {
     console.log(`inside if no token, serve listings28`);
-    res.json(listings28);
+    res.json({
+      listings: listings28,
+      loggedIn: false
+    });
 
   }
 
