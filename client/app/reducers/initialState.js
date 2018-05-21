@@ -1,5 +1,6 @@
 export default {
   listings28: [],
+  isFetching: false,
   user: {
     nickname: '',
     loggedIn: false
