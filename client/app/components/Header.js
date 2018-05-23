@@ -20,14 +20,10 @@ const Header = (props)=>(
 		<div className="collapse navbar-collapse" id="navbarCollapse">
 			<ul className="navbar-nav mr-auto">
 				<li className="nav-item active">
-          { !props.loggedIn &&
-					  <LoginLink />
-          }
+          { !props.loggedIn && <LoginLink /> }
 				</li>
         <li className="nav-item">
-          { !props.loggedIn &&
-					  <RegisterLink />
-          }
+          { !props.loggedIn && <RegisterLink /> }
 				</li>
 				<li className="nav-item">
 					<Link to="/list-item" className="nav-link">List New Item</Link>

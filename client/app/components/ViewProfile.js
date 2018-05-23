@@ -6,6 +6,10 @@ import Header from './Header';
 
 import '../../build/assets/css/style.css';
 
+const EditProfileLink = ()=>(
+  <Link className="nav-link" to="/edit-profile">Login</Link>
+);
+
 const ViewProfile = (props)=>(
     <div>
       <Header loggedIn = { props.loggedIn } />
@@ -13,8 +17,7 @@ const ViewProfile = (props)=>(
       <div className="row">
         <div className="col-xs-12 col-sm-12 col-md-12 col-lg-12">
          <div className="header-content text-center">
-             <h2>Edit Your Profile</h2>
-             <h4>...nickname...</h4>
+             <h2>Profile for ...nickname...</h2>
          </div>
      </div>
      </div>
@@ -38,6 +41,9 @@ const ViewProfile = (props)=>(
                         value={props.viewProfile.form.aboutMe}/>
                     </div>
                     <button type="submit" className="btn btn-default custom-btn">Submit</button>
+                    { props.loggedIn && 
+                     <button type="submit" className="btn btn-default custom-btn"><EditProfileLink/></button>
+                    }
                 </form>
               </div>
             </div>
