@@ -21,23 +21,13 @@ export default function reducer(state=initialState, action){
         user: {
           ...state.user,
           loggedIn: action.payload.loggedIn
-        }
+        },
+        isFetching: false
       };
     break;
     case RESPONSE_INITIAL_STATE_ERROR:
     console.log(`inside response initial state error`);
     return { ...state, isFetching: true };
-    break;
-    case SET_FORM_VALUES:
-      //console.log(`inside set form values reducer, action payload name and value below`);
-      //console.log(`name: ${action.payload.name} and value: ${action.payload.value}`);
-      return { 
-        ...state,  
-        formValues: { 
-          ...state.formValues, 
-          [action.payload.name]: action.payload.value
-        } 
-      };
     break;
 		case 'LOGIN_FORM_VALUES_R':
       return { 
