@@ -71,13 +71,12 @@ export default function reducer(state=initialState, action){
     console.log(action.payload.size);
       return { 
         ...state,  
-        listItem: { 
+        listItem: {
           ...state.listItem,
           form: {
             ...state.listItem.form, 
             image: action.payload
           }
-          
         } 
       };
     break;        
@@ -152,17 +151,16 @@ export default function reducer(state=initialState, action){
       if(action.payload.error){
         return {
           ...state, 
-          register: {
-            ...state.register,
-            error: true,
+          listItem: {
+            ...state.listItem,
             errorMessage: action.payload.message
             }
           }
       } else {
         return {
           ...state,
-          userStatus: {
-            loggedin: true,
+          listItem: {
+            ...state.listItem,
             message: action.payload.message
           }
         }

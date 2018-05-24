@@ -14,7 +14,8 @@ export default {
       image: ''
     },
     error: false,
-    errorMessage: ''
+    errorMessage: '',
+    message: ''
   },
   register: {
     form: {
