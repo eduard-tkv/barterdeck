@@ -10,8 +10,8 @@ const inspect = require('util').inspect;
 const parserFalse = bodyParser.urlencoded({ extended: false });
 const parserTrue = bodyParser.urlencoded({ extended: true });
 
-const registerHelpers = require('../helpers/register');
-const loginHelpers = require('../helpers/login');
+const helpers = require('../helpers');
+//const loginHelpers = require('../helpers/login');
 const lists = require('./listings28');
 
 const jwt = require('jsonwebtoken');
@@ -19,7 +19,9 @@ const config = require('../config');
 
 const cors = require('cors');
 
-const SORRY_ERROR = 'Sorry, an error occurred';
+const ERROR = 'Sorry, an error occurred';
+
+// MAYBE PUT CONSTANTS LIKE ERROR INTO SEPARATE FILE
 
 router.post('/register', (req, res, next)=>{
   
@@ -50,7 +52,7 @@ router.post('/register', (req, res, next)=>{
     console.log('email: ' + email + 'password: ' + password + 'username: ' + nickname);
     Account.register(new Account({ nickname: nickname, email: email }), password, (err, user) => {
       if(err){
-        registerHelpers.error(err, res);
+        helpers.error(err, res, 'register');
       } else {
           return res.json({
             error: false,
@@ -106,7 +108,7 @@ router.post('/login', parserFalse, (req, res, next) => {
       console.log(err.message);
         return res.json({
           error: true,
-          message: err.message ? err.message : SORRY_ERROR
+          message: err.message ? err.message : ERROR
         });
     }
     
@@ -115,7 +117,7 @@ router.post('/login', parserFalse, (req, res, next) => {
       if (err){
         return res.json({
           error: true,
-          message: err.message ? err.message : SORRY_ERROR
+          message: err.message ? err.message : ERROR
         });
       }
       
@@ -381,7 +383,7 @@ router.post('/listitem', (req, res, next)=>{
   let itemSought = '';
   let sellFor = null;
   let description = '';
-  let postedOn = Date.now();
+  let postedDate = '';
   let query = '';
   let limitReach = false;
   let dir = '';
