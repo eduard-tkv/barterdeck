@@ -19,6 +19,8 @@ const config = require('../config');
 
 const cors = require('cors');
 
+const SORRY_ERROR = 'Sorry, an error occurred';
+
 router.post('/register', (req, res, next)=>{
   
   console.log(`inside post register, req.headers and req.body below`);
@@ -33,25 +35,16 @@ router.post('/register', (req, res, next)=>{
   let email = '';
   let password = '';
   
-  /*
-  busboy.on('file', function(fieldname, file, filename, encoding, mimetype) {
-    console.log('File [' + fieldname + ']: filename: ' + filename + ', encoding: ' + encoding + ', mimetype: ' + mimetype);
-    file.on('data', function(data) {
-      console.log('File [' + fieldname + '] got ' + data.length + ' bytes');
-    });
-    file.on('end', function() {
-      console.log('File [' + fieldname + '] Finished');
-    });
-  });
-  */
-  busboy.on('field', function(fieldname, val, fieldnameTruncated, valTruncated, encoding, mimetype) {
+  // Extract fields from an incoming register form and save
+  busboy.on('field', function(fieldname, val) {
     console.log('Field [' + fieldname + ']: value: ' + inspect(val));
     if(fieldname == 'nickname') { nickname = val; }
     if(fieldname == 'email') { email = val; }
     if(fieldname == 'password') { password = val; }
-
   });
   
+  // Register a user. Using nickname instead of username so it does not conflict 
+  // with passport.js since email is being used a username for login
   busboy.on('finish', function() {
     console.log('Done parsing form!');
     console.log('email: ' + email + 'password: ' + password + 'username: ' + nickname);
@@ -59,7 +52,12 @@ router.post('/register', (req, res, next)=>{
       if(err){
         registerHelpers.error(err, res);
       } else {
-        registerHelpers.success(res);
+          return res.json({
+            error: false,
+            nickname: nickname,
+            loggedIn: true,
+            message: "Registration successful. Please update your profile!"
+          });
       }
     });
   });
@@ -99,20 +97,26 @@ router.post('/login', parserFalse, (req, res, next) => {
       console.log(`inside no user`);
       return res.json({ 
         error: true, 
-        message: "Password or email are incorrect" 
+        message: "Password or email is incorrect" 
       });
     }
     
     if(err){
       console.log('err:');
       console.log(err.message);
-      loginHelpers.error(err, res);
+        return res.json({
+          error: true,
+          message: err.message ? err.message : SORRY_ERROR
+        });
     }
     
     req.logIn(user, function(err){
       console.log(`inside req.logIn`);
       if (err){
-        loginHelpers.error(err, res);
+        return res.json({
+          error: true,
+          message: err.message ? err.message : SORRY_ERROR
+        });
       }
       
       console.log(`user id below`);
@@ -140,8 +144,8 @@ router.post('/login', parserFalse, (req, res, next) => {
       
       return res.json({
         error: false,
-        message: "Login Success",
-        username: user.nickname,
+        message: "You are logged in now",
+        nickname: user.nickname,
         token: token
       });
     });
@@ -191,8 +195,7 @@ router.post('/editprofile', (req, res, next)=>{
         
         return res.send({
           error: true,
-          status: 'tokenfail',
-          message: 'Failed to authenticate token.' 
+          reason: 'tokenfail'
         });  
         next();
       } else {
@@ -212,8 +215,7 @@ router.post('/editprofile', (req, res, next)=>{
           console.log('inside busboy error, error message below');
           console.log(err);
           res.send({ 
-            error: true, 
-            status: 'setlocationerror',
+            error: true,
             message: 'Setting location failed. Please try again.' });
         });
 
@@ -236,13 +238,11 @@ router.post('/editprofile', (req, res, next)=>{
                 console.log(`ERROR inside account update, error saving the listing`);
                 res.send({ 
                   error: true,
-                  status: 'editprofileerror',
                   message: 'Error saving the profile!' });
               } else {
                 console.log(`profile updated in database successfully, sending success response`);
                 res.send({
                   error: false,
-                  status: 'editprofilesuccess',
                   message: 'Profile saved'
                 });
               }
@@ -258,15 +258,12 @@ router.post('/editprofile', (req, res, next)=>{
   } else {
     return res.json({ 
       error: true, 
-      status: 'notoken', 
-      message: 'No token found.' }); 
+      reason: 'notoken'
+    }); 
     next();
   }
   
-  // status codes:
-  // 'notoken' - redirect to login page
-  // 'tokenfail' - redirect to login page
-  // in all other cases display the error
+ // reason: notoken or tokenfail redirect to login page
 });
 
 
@@ -310,8 +307,7 @@ router.post('/setlocation', (req, res, next)=>{
         
         return res.send({
           error: true,
-          status: 'tokenfail',
-          message: 'Failed to authenticate token.' 
+          reason: 'tokenfail'
         });  
         next();
       } else {
@@ -329,8 +325,7 @@ router.post('/setlocation', (req, res, next)=>{
           console.log('inside busboy error, error message below');
           console.log(err);
           res.send({ 
-            error: true, 
-            status: 'setlocationerror',
+            error: true,
             message: 'Setting location failed. Please try again.' });
         });
 
@@ -348,14 +343,12 @@ router.post('/setlocation', (req, res, next)=>{
                 console.log(`ERROR inside account update, error saving the listing`);
                 res.send({ 
                   error: true,
-                  status: 'setlocationerror',
                   message: 'Error setting the location!' });
               } else {
                 console.log(`location updated in database successfully, sending success response`);
                 res.send({
                   error: false,
-                  status: 'setlocationsuccess',
-                  message: 'Location saved'
+                  message: 'Your location has been saved'
                 });
               }
           });
@@ -369,8 +362,8 @@ router.post('/setlocation', (req, res, next)=>{
   } else {
     return res.json({ 
       error: true, 
-      status: 'notoken', 
-      message: 'No token found.' }); 
+      status: 'notoken'
+    }); 
     next();
   }
   
@@ -434,8 +427,7 @@ router.post('/listitem', (req, res, next)=>{
         
         return res.send({ 
           error: true,
-          status: 'tokenfail',
-          message: 'Failed to authenticate token.' 
+          status: 'tokenfail'
         });  
         next();
       } else {
@@ -553,8 +545,10 @@ router.post('/listitem', (req, res, next)=>{
             Account.findOneAndUpdate(query, saveListing, function(err, doc){
               console.log(`inside account update save listing details users email below\n`);
               console.log(doc.email);
-              // Not checking for err for now as
-              // it will set headers twice, maybe later
+              res.send({
+                error: false,
+                message: 'Thank you for listing!'
+              });
               if(err){
                 console.log(`ERROR inside account update, error saving the listing`);
                 res.status(455).send({ error: true, message: 'Error saving the listing!' });
@@ -564,7 +558,6 @@ router.post('/listitem', (req, res, next)=>{
          } else {
            res.send({ 
              error: true,
-             status: 'largefile',
              message: 'The image must be less than 500kb' });
          }
 
@@ -577,8 +570,8 @@ router.post('/listitem', (req, res, next)=>{
   } else {
     return res.json({ 
       error: true, 
-      status: 'notoken', 
-      message: 'No token found.' }); 
+      status: 'notoken'
+    }); 
     next();
   }
   
@@ -655,52 +648,6 @@ router.get('/homepage', (req, res)=>{
       listings: listings28,
       loggedIn: false
     });
-
-  }
-
-});
-
-/* GET users listing. */
-router.get('/react/listings28', parserTrue, (req, res)=>{
-  
-  console.log(`inside get listings28`);
-  
-  let listings28 = lists.listings28();
-  let listings28user = lists.listings28user();
-
-  console.log(`inside get listings28 before token slice, req.headers below`);
-  console.log(req.headers);
-  var token = req.headers.authorization.slice(7);
-  console.log(`inside get listings28 after token slice`);
- 
-  // decode token
-  if (token) {
-    console.log(`token below`);
-    console.log(token);
-    // verifies secret and checks exp
-    
-    console.log(`token secret key below`);
-    console.log(config.jwtSecret);
-    
-    jwt.verify(token, config.jwtSecret, function(err, decoded) {
-      if (err) {
-        console.log(`inside verify token error, error below`);
-        console.log(err);
-        res.json(listings28);
-        //return res.json({ error: true, message: 'Failed to authenticate token.' });  
-      } else {
-        console.log(`inside verify token NO error, decoded token below`);
-        console.log(decoded);
-        res.json(listings28user);
-        // if everything is good, save to request for use in other routes
-        //req.decoded = decoded;    
-        //next();
-      }
-    });
-
-  } else {
-    console.log(`inside if no token, serve listings28`);
-    res.json(listings28);
 
   }
 
