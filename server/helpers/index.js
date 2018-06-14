@@ -63,15 +63,14 @@ function success(res){
   });
 }
 */
-
+/*
 function passwordMismatch(res){
   return res.json({
     error: true,
     message: "Passwords don't match!"
   });
 }
-
+*/
 module.exports = {
-  error,
-  passwordMismatch
+  error
 };
