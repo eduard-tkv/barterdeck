@@ -4,7 +4,7 @@ import { incrementCount, postObject } from '../actions/index';
 
 import { Route, Link } from 'react-router-dom';
 import Loader from './Loader';
-import Header from './Header';
+import Header from '../containers/Header';
 
 //import '../assets/css/style.css';
 
@@ -138,7 +138,7 @@ export default class Home extends Component {
 
           <div>
             { console.log(`inside return home, this.props.isFetching: ${this.props.isFetching}`) }
-            { console.log(`inside return home, this.props.nickname: ${this.props.nickname}`) }
+            { console.log(`inside return home, this.props.user.nickname: ${this.props.user.nickname}`) }
             { console.log(`inside return home, this.props.user.loggedIn: ${this.props.user.loggedIn}`) }
               { this.props.isFetching ? <Loader /> : <div>{ list28new }</div>  }
           </div>

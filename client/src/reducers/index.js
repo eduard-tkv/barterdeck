@@ -25,11 +25,9 @@ export default function reducer(state=initialState, action){
         },
         isFetching: false
       };
-    break;
     case RESPONSE_INITIAL_STATE_ERROR:
     console.log(`inside response initial state error`);
     return { ...state, isFetching: true };
-    break;
 		case 'LOGIN_FORM_VALUES_R':
       return { 
         ...state,  
@@ -40,8 +38,7 @@ export default function reducer(state=initialState, action){
             [action.payload.name]: action.payload.value
           }
         } 
-      };  
-    break;    
+      };
 		case 'REGISTER_FORM_VALUES_R':
       return { 
         ...state,  
@@ -52,8 +49,7 @@ export default function reducer(state=initialState, action){
             [action.payload.name]: action.payload.value
           }
         } 
-      };  
-    break;  
+      };
 		case 'LIST_ITEM_FORM_VALUES_R':
       return { 
         ...state,  
@@ -65,7 +61,6 @@ export default function reducer(state=initialState, action){
           }
         } 
       };
-    break;    
     case 'LIST_ITEM_ATTACH_IMAGE_R':
     console.log(`inside list item attach image payload below`);
     console.log(action.payload);
@@ -80,7 +75,6 @@ export default function reducer(state=initialState, action){
           }
         } 
       };
-    break;        
     case 'REGISTER_ERROR_PASSWORDS_DONTMATCH':
     console.log(`inside reducer passwords dont match`);
       return  {
@@ -91,7 +85,6 @@ export default function reducer(state=initialState, action){
           errorMessage: 'Passwords must match!'
         }
       }
-    break;
     case ERROR:
       console.log(`inside reducer case error`);
       break;
@@ -123,7 +116,6 @@ export default function reducer(state=initialState, action){
           }
         }
       }
-      break;
     case 'REGISTER_RESPONSE':
       if(action.payload.error){
         return {
@@ -151,7 +143,6 @@ export default function reducer(state=initialState, action){
           }
         }
       }
-    break;
     case 'LISTITEM_RESPONSE':
       if(action.payload.error){
         return {
@@ -170,7 +161,6 @@ export default function reducer(state=initialState, action){
           }
         }
       }
-    break;
 		case 'EDITPROFILE_FORM_VALUES_R':
       return { 
         ...state,  
@@ -181,8 +171,7 @@ export default function reducer(state=initialState, action){
             [action.payload.name]: action.payload.value
           }
         } 
-      };  
-    break;    
+      };
     case 'SETLOCATION_RESPONSE':
       console.log(`inside set location response saga, response below`);
       console.log(action);
@@ -205,7 +194,6 @@ export default function reducer(state=initialState, action){
           }
         }
       }
-    break;
     case 'EDITPROFILE_RESPONSE_R':
     if(action.payload.error){
       return {
@@ -227,7 +215,16 @@ export default function reducer(state=initialState, action){
         }
       }
     }
-    break;
+    case 'LOGOUT_R':
+    console.log(`inside logout r`);
+      return {
+        ...state,
+        user: {
+          ...state.user,
+          loggedIn: false,
+          nickname: ''
+        }
+      }
 		default:
 		  return state;
 	}

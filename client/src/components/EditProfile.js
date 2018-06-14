@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
 
 import { convertToCamelcase } from '../helpers';
-import Header from './Header';
+import Header from '../containers/Header';
 
 //import '../assets/css/style.css';
 

@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { Link, withRouter } from 'react-router-dom';
-import Header from './Header';
+import Header from '../containers/Header';
 
 import { convertToCamelcase } from '../helpers';
 

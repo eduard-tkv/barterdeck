@@ -11,7 +11,6 @@ import Home from '../components/Home';
 function mapStateToProps(state){
   return {
     listings28: state.listings28,
-    viewProfile: state.viewProfile,
     user: state.user
   }
 }
