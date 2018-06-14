@@ -111,6 +111,10 @@ class ListItem extends Component{
                         <button type="submit" className="btn btn-default">Submit</button>
                       </div>
                     </div>
+                    <div className="form-errors">
+                      { this.props.listItem.error ? 
+                        this.props.listItem.errorMessage : this.props.listItem.message }
+                  </div>
                   </form>
                 </div>
               </div>
